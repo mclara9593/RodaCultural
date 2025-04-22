@@ -6,114 +6,105 @@ import Others.Pessoa;
 import Others.Review;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static Midias.Media.doReview;
-import static Midias.Media.review;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MediaTest {
-
-    private Media media;
-    private Pessoa autor;
     private List<Media> midias;
     private List<Pessoa> atores;
+    private Media filme;
+    private Media livro;
 
     @BeforeEach
     void setUp() {
-        autor = new Pessoa();
-        autor.setNome("Autor Teste");
-        media = new Media("Título Teste", false, 2020, Gender.ACAO, autor);
         midias = new ArrayList<>();
         atores = new ArrayList<>();
+
+        // Configurar um filme de teste
+        filme = new Movie("Matrix", true, 1999,
+                new Pessoa(), Gender.FICCAO_CIENTIFICA, new Review(),
+                new ArrayList<>(), "Cinema", 136, new Pessoa(), "Roteiro");
+
+        // Configurar um livro de teste
+        livro = new Books("1984", true, 1949,
+                new Pessoa(), new Review(), Gender.DISTOPICO, 12345, true, "Editora");
+
+        midias.add(filme);
+        midias.add(livro);
     }
 
     @Test
-    void testConstrutorEGetters() {
-        assertEquals("Título Teste", media.getTitle());
-        assertFalse(media.isStatus());
-        assertEquals(2020, media.getRelease_date());
-        assertEquals(Gender.ACAO, media.getGender());
-        assertEquals("Autor Teste", media.getAuthor().getNome());
+    void testRegisterMovie() {
+        Media novaMidia = Media.register(midias, atores);
+        assertNotNull(novaMidia);
+        assertTrue(novaMidia instanceof Movie);
     }
 
     @Test
-    void testSetters() {
-        media.setTitle("Novo Título");
-        media.setStatus(true);
-        media.setRelease_date(2021);
-        media.setGender(Gender.COMEDIA);
-
-        Pessoa novoAutor = new Pessoa();
-        novoAutor.setNome("Novo Autor");
-        media.setAuthor(novoAutor);
-
-        Review review = new Review();
-        review.setNote("Excelente");
-        review.setStars(5);
-        media.setReview(review);
-
-        assertEquals("Novo Título", media.getTitle());
-        assertTrue(media.isStatus());
-        assertEquals(2021, media.getRelease_date());
-        assertEquals(Gender.COMEDIA, media.getGender());
-        assertEquals("Novo Autor", media.getAuthor().getNome());
-        assertEquals("Excelente", media.getReview().getNote());
+    void testSearchByTitle() {
+        Media encontrada = Media.search(midias, atores);
+        assertNotNull(encontrada);
+        assertEquals("MATRIX", encontrada.getTitle().toUpperCase());
     }
 
     @Test
-    void testToString() {
-        String expected = "Título: Título Teste\n" +
-                "Status: Não concluído\n" +
-                "Ano lançamento: 2020\n" +
-                "Gênero: ACAO\n" +
-                "Autor: Autor Teste";
-                "Avaliação: 5" +
-                "Nota: oioioi";
-        assertEquals(expected, media.toString());
+    void testSearchByGenre() {
+        Media encontrada = Media.search(midias, atores);
+        assertEquals(Gender.FICCAO_CIENTIFICA, encontrada.getGender());
     }
 
-    // Teste para métodos estáticos (requer mock do Scanner)
     @Test
-    void testGetStatusInput() {
-        assertDoesNotThrow(() -> Media.getStatusInput());
+    void testDoReview() {
+        Media avaliada = Media.doReview(midias, atores);
+        assertNotNull(avaliada);
+        assertTrue(avaliada.isStatus());
+        assertNotNull(avaliada.getReview());
+    }
+
+    @Test
+    void testSetAndGetTitle() {
+        filme.setTitle("Matrix Reloaded");
+        assertEquals("Matrix Reloaded", filme.getTitle());
+    }
+
+    @Test
+    void testSetAndGetStatus() {
+        filme.setStatus(false);
+        assertFalse(filme.isStatus());
     }
 
 //    @Test
-//    void testGetGenderInput() {
-//        assertDoesNotThrow(() -> Media.getGenderInput());
+//    void testFilterByYear() {
+//        List<Media> filtered = midias.stream()
+//                .filter(m -> m.getRelease_date() == 1999)
+//                .toList();
+//
+//        assertEquals(1, filtered.size());
+//        assertEquals("Matrix", filtered.get(0).getTitle());
 //    }
+}
 
+class PessoaTest {
     @Test
-    void testRegister() {
-        Media result = Media.register(midias, atores);
-        assertDoesNotThrow(() -> Media.register(midias, atores));
+    void testPessoaCreation() {
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome("Keanu Reeves");
+        pessoa.setFunção("Ator");
+
+        assertEquals("Keanu Reeves", pessoa.getNome());
+        assertEquals("Ator", pessoa.getFunção());
     }
+}
 
+class ReviewTest {
     @Test
-    void testSearch() {
-        midias.add(media);
-        List<? extends Media> encontrada = Media.search(midias, atores);
-        assertDoesNotThrow(() -> Media.search(midias, atores));
-    }
+    void testReviewCreation() {
+        Review review = new Review();
+        review.setNote("Excelente!");
+        review.setStars(5);
 
-    @Test
-    void testReview() {
-        midias.add(media);
-        assertDoesNotThrow(() -> doReview(midias, atores));
-    }
-
-    @Test
-    void testChangeStatus() {
-        midias.add(media);
-        assertDoesNotThrow(() -> Media.changeStatus(midias, atores));
-    }
-
-    @Test
-    void order() {
-        midias.add(media);
-        assertDoesNotThrow(() -> Media.order(midias));
+        assertEquals("Excelente!", review.getNote());
+        assertEquals(5, review.getStars());
     }
 }

@@ -29,7 +29,6 @@ public class DigitalMedia extends Media {
         this.onde = onde;
     }
 
-    //toString
     @Override
     public String toString() {
         String elencoFormatado = cast.stream()
@@ -53,7 +52,7 @@ public class DigitalMedia extends Media {
             String nome = getStringInput();
             p.setNome(nome);
 
-            System.out.println("Digite a função/cargo da pessoa " + (i+1) + ":");
+            System.out.println("Digite o papel da pessoa " + (i+1) + "do elenco:");
             String funcao = getStringInput();
             p.setFunção(funcao);
 

@@ -23,7 +23,6 @@ public class Pessoa {
         return obra;
     }
 
-
     public static void setNome(String nome) {
         Pessoa.nome = nome;
     }

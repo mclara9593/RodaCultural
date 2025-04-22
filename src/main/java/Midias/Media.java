@@ -50,7 +50,6 @@ public class Media {
         return review;
     }
 
-
     public void setTitle(String title) {
         this.title = title;
     }
@@ -74,6 +73,7 @@ public class Media {
     public void setReview(Review review) {
         this.review=review;
     }
+
 
     //Métodos para pegar a entrada dos atributos
 
@@ -136,13 +136,13 @@ public class Media {
         this.review = review;
     }
 
-    //Métodos
+    //Métodos principais
 
     //Cadastrar
     public static Media register(List<Media> mídias,List <Pessoa> atores) {
         System.out.print("Quantos itens vai cadastrar? ");
         Scanner sc = new Scanner(System.in);
-        int a = lerInteiro(sc, 1, 4);
+        int a = lerInteiro(sc, 1, 50);
         Media media = null;
 
         //Cria o objeto
@@ -152,6 +152,8 @@ public class Media {
             //Verifica se o título é livro série ou filme
             System.out.println("Que tipo de mídia deseja cadastrar?"+ System.lineSeparator() +"F(Filme), S(Série) ou L(Livro):");
             String type = getMediaType();
+
+            //Pega a entrada de atributos
 
             System.out.println("Título:");
             String titulo = getTitleInput();
@@ -174,6 +176,8 @@ public class Media {
 
             //Entradas específicas para filme
             if (type.equals("F")) {
+
+                //inicializa elenco
                 List<Pessoa> cast = new ArrayList<>();
                 System.out.println("Elenco:");
                 cast = getCastInput(cast, mídias,titulo,atores);
@@ -184,7 +188,6 @@ public class Media {
                 System.out.println("Diretor:");
                 Pessoa director=getDirectorInput(titulo);
 
-
                 System.out.println("Script:");
                 String script = getScriptInput();
 
@@ -193,9 +196,8 @@ public class Media {
 
             }
 
-
-            //Entradas específicas para livro
-            else if (type.equals("L")) {
+                //Entradas específicas para livro
+                else if (type.equals("L")) {
                 System.out.println("ISBN:");
                 int ISBN = getISBNInput();
 
@@ -210,11 +212,14 @@ public class Media {
                 media = new Books(title, status, release_date, author,review, gender, ISBN, copy, publisher);
 
             }
-            //Entradas específicas para série
-            if (type.equals("S")) {
+                //Entradas específicas para série
+                if (type.equals("S")) {
+
+                //inicializa elenco
                 List<Pessoa> cast = new ArrayList<>();
                 cast = getCastInput(cast, mídias,titulo,atores);
 
+                //inicializa lista de temporadas
                 int seasons_number = getSeasons_numberInput();
                 List<Season> seasons = new ArrayList<>(); // Inicializa a lista de temporadas
 
@@ -231,6 +236,7 @@ public class Media {
                     //cria temporada na serie
                     seasons.add(temporada);
                 }
+
                 //cria objeto tipo serie
                 media = new Show(title, status, release_date, author, gender, cast, onde);
                 //Seta as temporadas
@@ -247,16 +253,13 @@ public class Media {
             result.setReview(r);
 
 
-
         }
         return result;
     }
 
-    //Remover
-    public static void remove(List<Media> Mídias){}
-
     //Busca
     public static Media search(List<Media> Mídias,List <Pessoa> atores) {
+
         System.out.println("Que tipo de mídia deseja buscar?" + System.lineSeparator() + "F(Filme), S(Série) ou L(Livro):");
         String typeMedia = getMediaType();
 
@@ -270,7 +273,8 @@ public class Media {
             System.out.print("Como deseja realizar a busca?" + System.lineSeparator() + " Título" + System.lineSeparator() + " Gênero" + System.lineSeparator() + " Diretor" + System.lineSeparator() + " Ator" + System.lineSeparator() + " Ano" + System.lineSeparator());
             entrada = getStringInput().toUpperCase();
 
-        } else if (typeMedia.equalsIgnoreCase("S")) {}
+        }
+
 
         //Filtro por título
         Media encontrada = null;
@@ -283,7 +287,8 @@ public class Media {
                     .findFirst()
                     .orElse(null);
         }
-            //Filtro por ano
+
+        //Filtro por ano
         else  if (entrada.equals("ANO")) {
             System.out.print("Digite o ano de lançamento que deseja buscar: ");
                 Scanner sc = new Scanner(System.in);
@@ -294,83 +299,91 @@ public class Media {
                         .orElse(null);
             }
 
-            //Filtro por autor
-            else if (entrada.equals("AUTOR")) {
-            System.out.print("Digite o autor do titulo que deseja buscar: ");
-               String autorBuscado= getStringInput().toUpperCase();
-                encontrada = Mídias.stream()
-                        .filter(m -> m.getAuthor().getNome() != null && m.getAuthor().getNome().equals(autorBuscado))
-                        .findFirst()
-                        .orElse(null);
-            }
+        //Filtro por autor
+        else if (entrada.equals("AUTOR")) {
+            System.out.print("Digite o autor do título que deseja buscar: ");
+            String autor = getStringInput().toUpperCase();
 
-            // Filtro por gênero
-            else if (entrada.equals("GÊNERO")) {
-                System.out.print("Digite o gênero do título que deseja buscar: ");
-                String genero = getStringInput().toUpperCase();
-                encontrada = Mídias.stream()
-                        .filter(m -> m.getGender() != null &&
-                                m.getGender().name().equalsIgnoreCase(genero)) // Comparar com o nome do enum
-                        .findFirst()
-                        .orElse(null);
-            }
+            encontrada = Mídias.stream()
+                    .filter(m ->
+                    m.getAuthor().getNome().toUpperCase().contains(autor))
+                    .findFirst()
+                    .orElse(null);
+        }
 
 
+        // Filtro por gênero
+        else if (entrada.equals("GÊNERO")) {
+            System.out.print("Digite o gênero do título que deseja buscar: ");
+            String genero = getStringInput().toUpperCase();
 
-            //Filtro por ISBN
-            else if (entrada.equals("ISBN")) {
+            encontrada = Mídias.stream()
+                    .filter(m -> m.getGender() != null &&
+                            m.getGender().name().equalsIgnoreCase(genero)) // Comparar com o nome do enum
+                    .findFirst()
+                    .orElse(null);
+        }
+
+
+        //Filtro por ISBN
+        else if (entrada.equals("ISBN")) {
             System.out.print("Digite o código ISBN do título que deseja buscar: ");
-                Scanner scan = new Scanner(System.in);
-                System.out.print("Código do ISBN: ");
-                int ISBNbuscado= scan.nextInt();
+            int ISBN = lerInteiro(new Scanner(System.in), 0, 99999);
 
-                encontrada = Mídias.stream ()
-                        .map(m -> (Books)m)     //Cast para subtipo de mídia
-                        .filter(m ->  m.getISBN()==ISBNbuscado)
-                        .findFirst()
-                        .orElse(null);
-            }
+            encontrada = Mídias.stream()
+                    .filter(m -> m instanceof Books)
+                    .map(m -> (Books) m)
+                    .filter(m -> m.getISBN() == ISBN)
+                    .findFirst()
+                    .orElse(null);
+        }
 
-            //Filtro por diretor
-            else if (entrada.equals("DIRETOR")) {
+        //Filtro por diretor
+        else if (entrada.equals("DIRETOR")) {
             System.out.print("Digite o diretor do título que deseja buscar: ");
-            String diretorBuscado= getStringInput().toUpperCase();
+            String diretor= getStringInput().trim();
 
+            encontrada = Mídias.stream()
+                    .filter(m -> m instanceof Movie)
+                    .map(m -> (Movie) m)
+                    .filter(m ->
+                    m.getDirector().getNome().equalsIgnoreCase(diretor))
+                    .findFirst()
+                    .orElse(null);
+        }
+
+        //Filtro por ator
+        else if (entrada.equals("ATOR NO ELENCO")) {
+            System.out.print("Digite o nome do ator: ");
+            String Ator = getStringInput();
+
+            Pessoa ator = atores.stream()
+                    .filter(p ->
+                    p.getNome().equalsIgnoreCase(Ator))
+                    .findFirst()
+                    .orElse(null);
+
+            if (ator != null && ator.getObra() != null) {
+                String tituloObra = ator.getObra();
                 encontrada = Mídias.stream()
-                        .map(m -> (Movie)m)
-                        .filter(m -> m.getDirector().getNome() != null && m.getDirector().getNome().equals(diretorBuscado))
+                        .filter(m -> m.getTitle() != null &&
+                                m.getTitle().equalsIgnoreCase(tituloObra))
                         .findFirst()
                         .orElse(null);
-
+            } else {
+                System.out.println("Ator não encontrado ou sem obra associada!");
             }
+        }
 
-            //Filtro por ator
-            else if (entrada.equals("ATOR NO ELENCO")) {
-                System.out.print("Digite o nome do ator: ");
-                String AtorBuscado= getStringInput();
-
-                //encontrar objeto ator pelo nome
-                Pessoa ator = atores.stream()
-                        .filter(p -> p.getNome() != null && p.getNome().equals(AtorBuscado))
-                        .findFirst()
-                        .orElse(null);
-
-                //encontrar midia pelo nome do filme/serie que o ator fez parte
-                String titulo =ator.getObra();
-                encontrada = Mídias.stream()
-                        .filter(m -> m.getTitle() != null && m.getTitle().equalsIgnoreCase(titulo))
-                        .findFirst()
-                        .orElse(null);
-
-            }
-
-            else{
+        else{
             System.out.print("Não foi possível realizar a busca: ");
-            }
-
+        }
+        System.out.println("Resultado: " + encontrada);
         Media definitive = encontrada;
         return definitive;
     }
+
+    //Fazer avalição
     public static Media doReview(List<Media> Mídias,List<Pessoa> atores){
         Scanner scan = new Scanner(System.in);
 
@@ -383,7 +396,7 @@ public class Media {
         for (int i = 0; i < a; i++) {
 
             //busca a  midia a ser avalaida
-            System.out.print("Informações a respeito do título a ser avaliado ");
+            System.out.print("Informações a respeito do título a ser avaliado "+ System.lineSeparator());
             Media find=search(Mídias,atores);
 
             //verifica se a midia ja foi assistida/lida
@@ -439,17 +452,16 @@ public class Media {
     }
 
 
-//    Listas: o sistema deve apresentar ao usuário as listas de livros, séries e filmes. Essas
-//    listas podem ser ordenadas pela avaliação – bem ou mal avaliados. Além disso, os
-//    usuários podem filtrar essas listas por gênero e ano de lançamento.
 
     public static void order(List<Media> Mídias) {
 
         //saber qual lista buscar
-        System.out.println("Que tipo de mídia deseja buscar?" + System.lineSeparator() + "F(Filme), S(Série) ou L(Livro):");
+        System.out.println("Que tipo de lista deseja vizualizar?" + System.lineSeparator() + "F(Filme), S(Série) ou L(Livro):");
         String type = getMediaType();
 
         List<? extends Media> filteredList = List.of();
+        System.out.println("Lista de títulos:"+ type);
+        System.out.println();
 
         if (type.equals("L")) {
             filteredList = Mídias.stream()
@@ -462,6 +474,7 @@ public class Media {
                     .filter(m -> m instanceof Movie)
                     .map(m -> (Movie) m)
                     .collect(Collectors.toList());
+
         }
         else if (type.equals("S")) {
             filteredList = Mídias.stream()
@@ -470,22 +483,32 @@ public class Media {
                     .collect(Collectors.toList());
         }
 
-        System.out.println("Como deseja buscar? "+ System.lineSeparator() + " Gênero" + System.lineSeparator() + " Ano" + System.lineSeparator() );
-        String como=getStringInput().toUpperCase();
+        System.out.println("Lista de"+ type);
+        filteredList.stream().forEach(System.out::println);
 
-        if (como.equals("GÊNERO")) {
-            Gender gender = getGenderInput();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Quantas buscas deseja realizar?");
+        int num=lerInteiro(sc,1,50);
 
-            filteredList.stream()
-                    .filter(m -> m.getGender() != null && m.getGender().equals(gender))
-                    .forEach(System.out::println);
+        System.out.println();
+        for (int i = 0; i < num; i++) {
+            System.out.println("Como deseja buscar? "+ System.lineSeparator() + " Gênero" + System.lineSeparator() + " Ano" + System.lineSeparator() );
+            String como=getStringInput().toUpperCase();
 
-        } else if (como.equals("ANO")) {
-            System.out.println("Digite o ano de lançamento:");
-            int year = lerInteiro(new Scanner(System.in), 1000, 2025);
-             filteredList.stream()
-                    .filter(m -> m.getRelease_date()==(year))
-                    .forEach(System.out::println);
+            if (como.equals("GÊNERO")) {
+                Gender gender = getGenderInput();
+
+                filteredList.stream()
+                        .filter(m -> m.getGender() != null && m.getGender().equals(gender))
+                        .forEach(System.out::println);
+
+            } else if (como.equals("ANO")) {
+                System.out.println("Digite o ano de lançamento:");
+                int year = lerInteiro(new Scanner(System.in), 1000, 2025);
+                 filteredList.stream()
+                        .filter(m -> m.getRelease_date()==(year))
+                        .forEach(System.out::println);
+            }
         }
     }
 }

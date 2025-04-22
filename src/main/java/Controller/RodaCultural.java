@@ -36,6 +36,7 @@ public class RodaCultural {
                     if (mídias == null || mídias.isEmpty()) {
                         System.out.println("Nenhuma mídia cadastrada.");
                     }else{
+                        System.out.println();
                         System.out.println("Título adiconado:");
                         System.out.println();
                         System.out.println(midia.toString());

@@ -37,7 +37,7 @@ public class Movie extends DigitalMedia {
         return super.toString() + "\n" +
                 "Duração: " + duration + " minutos\n" +
                 "Diretor: " + this.director.getNome() + "\n" +
-                "Roteiro: " + script;
+                "Roteiro/Script: " + this.script;
     }
 
     public static Pessoa getDirectorInput(String titulo) {
