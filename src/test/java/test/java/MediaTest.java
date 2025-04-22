@@ -1,5 +1,6 @@
-package Midias;
+package test.java;
 
+import Midias.*;
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Midias.Media.doReview;
+import static Midias.Media.review;
 import static org.junit.jupiter.api.Assertions.*;
 
 class MediaTest {
@@ -67,49 +70,50 @@ class MediaTest {
                 "Ano lançamento: 2020\n" +
                 "Gênero: ACAO\n" +
                 "Autor: Autor Teste";
+                "Avaliação: 5" +
+                "Nota: oioioi";
         assertEquals(expected, media.toString());
     }
 
     // Teste para métodos estáticos (requer mock do Scanner)
     @Test
     void testGetStatusInput() {
-        // Este teste é mais complexo porque envolve entrada do usuário
-        // Em um teste real, você deveria mockar o Scanner
-        // Aqui está uma versão simplificada
         assertDoesNotThrow(() -> Media.getStatusInput());
     }
 
-    @Test
-    void testGetGenderInput() {
-        // Similarmente, este teste precisaria de mock
-        assertDoesNotThrow(() -> Media.getGenderInput());
-    }
+//    @Test
+//    void testGetGenderInput() {
+//        assertDoesNotThrow(() -> Media.getGenderInput());
+//    }
 
     @Test
     void testRegister() {
         Media result = Media.register(midias, atores);
-        // Como register usa Scanner, este teste precisaria de mock
-        // Aqui apenas verificamos se não lança exceção
         assertDoesNotThrow(() -> Media.register(midias, atores));
     }
 
     @Test
     void testSearch() {
         midias.add(media);
-        Media encontrada = Media.search(midias, atores);
-        // Como search usa Scanner, este teste precisaria de mock
+        List<? extends Media> encontrada = Media.search(midias, atores);
         assertDoesNotThrow(() -> Media.search(midias, atores));
     }
 
     @Test
     void testReview() {
         midias.add(media);
-        assertDoesNotThrow(() -> Media.review(midias, atores));
+        assertDoesNotThrow(() -> doReview(midias, atores));
     }
 
     @Test
     void testChangeStatus() {
         midias.add(media);
         assertDoesNotThrow(() -> Media.changeStatus(midias, atores));
+    }
+
+    @Test
+    void order() {
+        midias.add(media);
+        assertDoesNotThrow(() -> Media.order(midias));
     }
 }

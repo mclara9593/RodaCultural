@@ -2,17 +2,74 @@ package Midias;
 
 import Others.Gender;
 import Others.Pessoa;
+import Others.Review;
 
-import java.time.LocalDate;
+import java.util.Scanner;
 
 public class Books extends Media {
-        private int ISBN;
-        private Boolean copy;
-        private String publisher;
+        private static int ISBN;
+        private static Boolean copy;
+        private static String publisher;
 
 
+        public static int getISBN() {
+                return ISBN;
+        }
+        public static Boolean getCopy() {
+                return copy;
+        }
+        public static String getPublisher() {
+                return publisher;
+        }
+        
+        public void setISBN(int ISBN) {
+                this.ISBN = ISBN;
+        }
+        public void setCopy(Boolean copy) {
+                this.copy = copy;
+        }
+        public void setPublisher(String publisher) {
+                this.publisher = publisher;
+        }
 
-        public Books(String title, boolean status, LocalDate release_date, Pessoa author, Gender gender, int ISBN, Boolean copy, String publisher) {
+        public String toString() {
+                return super.toString() + "\n" +
+                        "ISBN: " + ISBN + "\n" +
+                        "Cópia física: " + (copy ? "Sim" : "Não") + "\n" +
+                        "Editora: " + publisher;
+        }
+
+        public static int getISBNInput() {
+                Scanner sc = new Scanner(System.in);
+                ISBN= Integer.parseInt(sc.nextLine());
+                return ISBN;
+        }
+
+        public static Boolean getCopyInput() {
+                Scanner sc = new Scanner(System.in);
+                String sta=sc.nextLine();
+                if(sta.equals("S"))
+                        copy= Boolean.parseBoolean(String.valueOf(true));
+                else if(sta.equals("N"))
+                        copy= Boolean.parseBoolean(String.valueOf(false));
+                return copy;
+        }
+
+        public static String getPublisherInput() {
+                Scanner sc = new Scanner(System.in);
+                publisher=sc.nextLine();
+                return publisher;
+        }
+
+        //Construtor
+        public Books(String title,
+                     boolean status,
+                     int release_date,
+                     Pessoa author,
+                     Review review, Gender gender,
+                     int ISBN,
+                     Boolean copy,
+                     String publisher) {
             //construtor de Media
             super(title, status, release_date, gender, author);
         }

@@ -1,8 +1,8 @@
 package Others;
 
 public class Review {
-    public String note;
-    public int stars;
+    public static String note;
+    public static int stars;
 
     public int getStars() {
         return stars;

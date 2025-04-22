@@ -1,6 +1,13 @@
 package MenuUtils;
 
+import Midias.Books;
+import Midias.Media;
+import Midias.Movie;
+import Midias.Show;
+
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class MenuUtilities {
     public static int lerInteiro(Scanner scanner, int min, int max) {
@@ -23,7 +30,7 @@ public class MenuUtilities {
         String type;
         do {
             Scanner scan = new Scanner(System.in);
-            type = scan.nextLine();
+            type = scan.nextLine().toUpperCase();
             if (!type.equals("L") && !type.equals("S") && !type.equals("F")) {
                 System.out.println("Entrada inválida! Digite F, S ou L:");
             }
@@ -32,9 +39,13 @@ public class MenuUtilities {
         return type;
     }
 
-    public static void clear() {
-            for (int i = 0; i < 50; i++) {
-                System.out.println();
-            }
-        }
+    public static String getStringInput() {
+        Scanner scan = new Scanner(System.in);
+        return scan.nextLine();
+    }
+
+
+
+
+
 }
