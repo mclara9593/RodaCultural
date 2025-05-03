@@ -16,37 +16,38 @@ import java.util.stream.Collectors;
 
 import java.util.Scanner;
 import static MenuUtils.MenuUtilities.*;
+import static Others.Pessoa.lerPessoa;
 
 public class Media {
     private static String title;
-    private static boolean status;
-    private static int release_date;
+    private  boolean status;
+    private  int release_date;
     private static Gender gender;
-    private static Pessoa author;
-    private static Review review;
+    private  Pessoa author;
+    private  Review review;
 
     //Getters and Setters
-    public static String getTitle() {
+    public  String getTitle() {
         return title;
     }
 
-    public static boolean isStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public static int getRelease_date() {
+    public int getRelease_date() {
         return release_date;
     }
 
-    public static Gender getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public static Pessoa getAuthor() {
+    public Pessoa getAuthor() {
         return author;
     }
 
-    public static Review getReview() {
+    public Review getReview() {
         return review;
     }
 
@@ -77,15 +78,9 @@ public class Media {
 
     //Métodos para pegar a entrada dos atributos
 
-    //Título
-    public static String getTitleInput() {
-        Scanner sc = new Scanner(System.in);
-        title=sc.nextLine();
-        return title;
-    }
-
     //Status
     public static boolean getStatusInput() {
+        boolean status = false;
         Scanner sc = new Scanner(System.in);
         String sta=sc.nextLine();
         if(sta.equals("S"))
@@ -107,13 +102,6 @@ public class Media {
         return Media.gender.valueOf(entrada.toUpperCase());
     }
 
-    //Autor
-    public static Pessoa getAuthorInput() {
-        Scanner sc = new Scanner(System.in);
-        Pessoa author=new Pessoa();
-        author.getNomeInput();
-        return author;
-    }
 
     //ToString
     public String toString() {
@@ -121,13 +109,14 @@ public class Media {
                 "Status: " + (status ? "Concluído" : "Não concluído") + "\n" +
                 "Ano lançamento: " + release_date + "\n" +
                 "Gênero: " + gender + "\n" +
-                "Autor: " + (author.getNome())+"\n" +
-                "Nota: " + (this.review.getStars())+"\n" +
-                "Avaliação: " + (this.review.getNote())+"\n" ;
+                "Autor: " + (author != null ? author.getNome() : "Desconhecido") + "\n" +
+                "Avaliação: " + (review != null ? review.getStars() : "Nenhuma") + " estrelas\n" +
+                "Nota: " + (review != null ? review.getNote() : "Nenhuma");
     }
 
+
     //Construtor
-    public Media(String title, boolean status, int release_date, Gender gender, Pessoa author) {
+    public Media(String title, boolean status, int release_date, Gender gender, Pessoa author,Review review) {
         this.title = title;
         this.status = status;
         this.release_date = release_date;
@@ -156,7 +145,7 @@ public class Media {
             //Pega a entrada de atributos
 
             System.out.println("Título:");
-            String titulo = getTitleInput();
+            String titulo = getStringInput();
 
             System.out.println("Digite o status: o título já foi visto/lido?" + System.lineSeparator() + "[S] ou [N]");
             Boolean status = getStatusInput();
@@ -167,12 +156,18 @@ public class Media {
             System.out.println("Gênero:");
             Gender gender = getGenderInput();
 
-            System.out.println("Autor-");
-            Pessoa author = getAuthorInput();
+            System.out.println("Autor");
+            Pessoa author=lerPessoa(titulo);
+            author.setFunção("Autor");
 
             System.out.println("Onde encontrar?(plataforma,livraria ou cinema):");
-            String onde = getOndeInput();
+            String onde = getStringInput();
 
+            //Inicializando avaliação em branco
+            Review review = new Review();
+            review.setNote("");
+            review.setStars(0);
+            //media.setReview(r);
 
             //Entradas específicas para filme
             if (type.equals("F")) {
@@ -182,31 +177,32 @@ public class Media {
                 System.out.println("Elenco:");
                 cast = getCastInput(cast, mídias,titulo,atores);
 
-                System.out.println("Duração:");
-                int duration = getDurationInput();
+                System.out.println("Duração (em minutos):");
+                int duration = lerInteiro(sc, 0, 99999);
 
+                //cria objeto diretor para tipo filme
                 System.out.println("Diretor:");
-                Pessoa director=getDirectorInput(titulo);
+                Pessoa director = lerPessoa(titulo);
+                director.setFunção("Diretor");
 
                 System.out.println("Script:");
-                String script = getScriptInput();
+                String script = getStringInput();
 
                 //cria objeto tipo filme
-                media = new Movie(title, status, release_date, author, gender,review, cast, onde, duration, director, script);
+                media =new Movie(titulo,status, release_date, author,gender,review, cast,onde,duration, director, script);
 
             }
 
                 //Entradas específicas para livro
                 else if (type.equals("L")) {
                 System.out.println("ISBN:");
-                int ISBN = getISBNInput();
+                int ISBN = lerInteiro(sc, 0, 99999);
 
                 System.out.println("Possui cópias?: [S] ou [N]");
                 boolean copy = getCopyInput();
 
                 System.out.println("Editora:");
-                String publisher = getPublisherInput();
-
+                String publisher = getStringInput();
 
                 //cria objeto tipo livro
                 media = new Books(title, status, release_date, author,review, gender, ISBN, copy, publisher);
@@ -215,43 +211,37 @@ public class Media {
                 //Entradas específicas para série
                 if (type.equals("S")) {
 
+                System.out.println("Ano de encerramento:");
+                int final_date = lerInteiro(sc,1000,2025);
+
                 //inicializa elenco
                 List<Pessoa> cast = new ArrayList<>();
                 cast = getCastInput(cast, mídias,titulo,atores);
 
                 //inicializa lista de temporadas
-                int seasons_number = getSeasons_numberInput();
+                int seasons_number = lerInteiro(sc, 0, 99999);
                 List<Season> seasons = new ArrayList<>(); // Inicializa a lista de temporadas
 
                 for (int n = 0; n < seasons_number; n++) {
                     System.out.println("Informações a respeito da temporada " + (n + 1) + ":");
 
                     //cria temporada
-                    Season temporada = new Season(title, status, release_date,  gender,author,n);
+                    Season temporada = new Season(title, status, release_date, gender,author,n,review);
                     temporada.setSeason_number(n+1);
 
                     System.out.println("Quantidade de episódios:");
-                    temporada.setEpisodes_number(getEpisodes_numberInput());
+                    temporada.setEpisodes_number(lerInteiro(sc, 0, 999999999));
 
                     //cria temporada na serie
                     seasons.add(temporada);
                 }
 
                 //cria objeto tipo serie
-                media = new Show(title, status, release_date, author, gender, cast, onde);
+                media = new Show(title, status, release_date, author, gender,review, cast, onde);
                 //Seta as temporadas
                 ((Show)media).setSeasons(seasons);
             }
-
-            //retorna título final
             result = media;
-
-            //Inicializando avaliação em branco
-            Review r = new Review();
-            r.setNote("");
-            r.setStars(0);
-            result.setReview(r);
-
 
         }
         return result;
@@ -291,8 +281,7 @@ public class Media {
         //Filtro por ano
         else  if (entrada.equals("ANO")) {
             System.out.print("Digite o ano de lançamento que deseja buscar: ");
-                Scanner sc = new Scanner(System.in);
-                int anoBuscado = lerInteiro(sc,1000,2025);
+                int anoBuscado = lerInteiro(new Scanner(System.in),1000,2025);
                 encontrada = Mídias.stream()
                         .filter(m -> m.getRelease_date()==(anoBuscado))
                         .findFirst()
@@ -309,6 +298,7 @@ public class Media {
                     m.getAuthor().getNome().toUpperCase().contains(autor))
                     .findFirst()
                     .orElse(null);
+
         }
 
 
@@ -492,6 +482,7 @@ public class Media {
 
         System.out.println();
         for (int i = 0; i < num; i++) {
+
             System.out.println("Como deseja buscar? "+ System.lineSeparator() + " Gênero" + System.lineSeparator() + " Ano" + System.lineSeparator() );
             String como=getStringInput().toUpperCase();
 

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static MenuUtils.MenuUtilities.lerInteiro;
+import static MenuUtils.SaveFile.save;
 
 public class RodaCultural {
     public static void main(String[] args) {
@@ -42,6 +43,7 @@ public class RodaCultural {
                         System.out.println(midia.toString());
                         System.out.println();
                     }
+                    save(mídias);
                 }
             }
 
@@ -55,14 +57,13 @@ public class RodaCultural {
 
             else if (opcaol == 3) {
                 Media find  =Media.search(mídias,atores);
-
             }
 
             else if (opcaol == 4) {
                 Media.order(mídias);
             }
 
-            else if (opcaol == 4) {
+            else if (opcaol == 5) {
                 System.out.println("Saindo do sistema...");
                 break;
             }

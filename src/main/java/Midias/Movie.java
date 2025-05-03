@@ -7,6 +7,7 @@ import static MenuUtils.MenuUtilities.*;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Movie extends DigitalMedia {
     private static int duration;
@@ -33,46 +34,25 @@ public class Movie extends DigitalMedia {
         this.script = script;
     }
 
+
     public String toString() {
         return super.toString() + "\n" +
                 "Duração: " + duration + " minutos\n" +
-                "Diretor: " + this.director.getNome() + "\n" +
+                "Diretor: " + (director != null ? director.getNome() : "Desconhecido")
+                + "\n" +
                 "Roteiro/Script: " + this.script;
     }
 
-    public static Pessoa getDirectorInput(String titulo) {
-        Pessoa diretor = new Pessoa();
-
-        System.out.println("Diretor do filme:");
-        String nome = getStringInput();
-        diretor.setNome(nome);
-
-        diretor.setFunção("Diretor");
-        diretor.setObra(titulo);
-
-        return diretor;
-    }
-
-    public static String getScriptInput() {
-        Scanner sc = new Scanner(System.in);
-        script=sc.nextLine();
-        return script;
-    }
-
-    public static int getDurationInput() {
-            Scanner sc = new Scanner(System.in);
-            duration= lerInteiro(sc,1,300);
-            return duration;
-        }
 
     public Movie(String title, boolean status, int release_date,
                  Pessoa author, Gender gender, Review review,
                  List<Pessoa> cast, String onde,
-                 int duration, Pessoa director, String script) {
-        super(title, status, release_date, author, gender, cast, onde);
-        this.duration = duration;
+                 int duration,Pessoa director,String script)
+    {
+        super(title, status, release_date, author, gender, onde,review);
         this.director = director;
-        this.script = script;
+        this.setCast(cast);
         setReview(review);
     }
 }
+

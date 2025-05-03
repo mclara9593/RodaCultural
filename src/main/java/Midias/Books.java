@@ -39,11 +39,6 @@ public class Books extends Media {
                         "Editora: " + publisher;
         }
 
-        public static int getISBNInput() {
-                Scanner sc = new Scanner(System.in);
-                ISBN= Integer.parseInt(sc.nextLine());
-                return ISBN;
-        }
 
         public static Boolean getCopyInput() {
                 Scanner sc = new Scanner(System.in);
@@ -55,11 +50,7 @@ public class Books extends Media {
                 return copy;
         }
 
-        public static String getPublisherInput() {
-                Scanner sc = new Scanner(System.in);
-                publisher=sc.nextLine();
-                return publisher;
-        }
+
 
         //Construtor
         public Books(String title,
@@ -71,7 +62,7 @@ public class Books extends Media {
                      Boolean copy,
                      String publisher) {
             //construtor de Media
-            super(title, status, release_date, gender, author);
+            super(title, status, release_date, gender, author,review);
         }
 }
 

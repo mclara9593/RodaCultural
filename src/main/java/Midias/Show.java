@@ -2,11 +2,14 @@ package Midias;
 
 import Others.Gender;
 import Others.Pessoa;
+import Others.Review;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
+import static MenuUtils.MenuUtilities.*;
+
 
 public class Show extends DigitalMedia {
     private static int seasons_number;
@@ -36,23 +39,6 @@ public class Show extends DigitalMedia {
     }
 
 
-
-
-    public static List<Season> getSeasonsInput(Season temporada) {
-        System.out.println("Digite a quantidade de episódios temporada " + (seasons_number) + ":");
-        temporada.getEpisodes_numberInput();
-        temporada.setSeason_number(seasons_number);
-
-        return seasons;
-    }
-
-    public static int getSeasons_numberInput() {
-        System.out.println("Quantidade de temporadas:");
-        Scanner sc = new Scanner(System.in);
-        int seasons_number= Integer.parseInt(sc.nextLine());
-        return seasons_number;
-    }
-
     public static void addSeason(Season season) {
         if (seasons == null) {
             seasons = new ArrayList<>();
@@ -63,10 +49,10 @@ public class Show extends DigitalMedia {
 
     //Construtor
     public Show(String title, boolean status, int release_date,
-                Pessoa author, Gender gender, List<Pessoa> cast, String onde) {
-        super(title, status, release_date, author, gender, cast, onde);
+                Pessoa author, Gender gender, Review review, List<Pessoa> cast, String onde) {
+        super(title, status, release_date, author, gender, onde,review);
         this.seasons = new ArrayList<>();
-
+        this.setCast(cast);
     }
 
 

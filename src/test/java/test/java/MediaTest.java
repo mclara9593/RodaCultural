@@ -22,13 +22,13 @@ class MediaTest {
         atores = new ArrayList<>();
 
         // Configurar um filme de teste
-        filme = new Movie("Matrix", true, 1999,
+        filme = new Movie("Inception", true, 1999,
                 new Pessoa(), Gender.FICCAO_CIENTIFICA, new Review(),
                 new ArrayList<>(), "Cinema", 136, new Pessoa(), "Roteiro");
 
         // Configurar um livro de teste
-        livro = new Books("1984", true, 1949,
-                new Pessoa(), new Review(), Gender.DISTOPICO, 12345, true, "Editora");
+        livro = new Books("1984", true, 1984,
+                new Pessoa(), new Review(), Gender.DISTOPICO, 1234, true, "Editora");
 
         midias.add(filme);
         midias.add(livro);
@@ -45,7 +45,7 @@ class MediaTest {
     void testSearchByTitle() {
         Media encontrada = Media.search(midias, atores);
         assertNotNull(encontrada);
-        assertEquals("MATRIX", encontrada.getTitle().toUpperCase());
+        assertEquals("Inception", encontrada.getTitle().toUpperCase());
     }
 
     @Test
@@ -73,16 +73,6 @@ class MediaTest {
         filme.setStatus(false);
         assertFalse(filme.isStatus());
     }
-
-//    @Test
-//    void testFilterByYear() {
-//        List<Media> filtered = midias.stream()
-//                .filter(m -> m.getRelease_date() == 1999)
-//                .toList();
-//
-//        assertEquals(1, filtered.size());
-//        assertEquals("Matrix", filtered.get(0).getTitle());
-//    }
 }
 
 class PessoaTest {
