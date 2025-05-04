@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import static MenuUtils.MenuUtilities.lerInteiro;
+import static MenuUtils.SaveFile.load;
 import static MenuUtils.SaveFile.save;
 
 public class RodaCultural {
@@ -16,7 +17,10 @@ public class RodaCultural {
         List<Pessoa> atores = new ArrayList<>();
         List<Media> mídias = new ArrayList<>();
 
+        String path = System.getProperty("user.dir") + "\\src\\main\\java\\MenuUtils.json";
         Scanner scanlmenu = new Scanner(System.in);
+
+        mídias=load(mídias,path);
 
         while (true) {
             System.out.print("Bem vind@ à Roda Cultural!" + System.lineSeparator());
@@ -29,6 +33,7 @@ public class RodaCultural {
             System.out.println();
 
             int opcaol = lerInteiro(scanlmenu, 1, 4);
+
 
             if (opcaol == 1) {
                 Media midia = Media.register(mídias,atores);
@@ -43,7 +48,7 @@ public class RodaCultural {
                         System.out.println(midia.toString());
                         System.out.println();
                     }
-                    save(mídias);
+                    save(mídias,path);
                 }
             }
 

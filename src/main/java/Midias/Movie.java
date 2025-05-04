@@ -10,17 +10,17 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class Movie extends DigitalMedia {
-    private static int duration;
+    private  int duration;
     private static Pessoa director;
-    private static String script;
+    private  String script;
 
-    public static int getDuration() {
+    public  int getDuration() {
         return duration;
     }
     public static Pessoa getDirector() {
         return director;
     }
-    public static String getScript() {
+    public  String getScript() {
         return script;
     }
 
@@ -40,7 +40,7 @@ public class Movie extends DigitalMedia {
                 "Duração: " + duration + " minutos\n" +
                 "Diretor: " + (director != null ? director.getNome() : "Desconhecido")
                 + "\n" +
-                "Roteiro/Script: " + this.script;
+                "Roteiro/Script: " + script;
     }
 
 
@@ -50,6 +50,8 @@ public class Movie extends DigitalMedia {
                  int duration,Pessoa director,String script)
     {
         super(title, status, release_date, author, gender, onde,review);
+        this.duration = duration;
+        this.script = script;
         this.director = director;
         this.setCast(cast);
         setReview(review);

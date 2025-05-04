@@ -1,19 +1,15 @@
 package Midias;
-
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
-
 import static Midias.Books.*;
 import static Midias.DigitalMedia.*;
 import static Midias.Movie.*;
 import static Midias.Season.*;
 import static Midias.Show.*;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
 import java.util.Scanner;
 import static MenuUtils.MenuUtilities.*;
 import static Others.Pessoa.lerPessoa;
@@ -191,6 +187,7 @@ public class Media {
                 //cria objeto tipo filme
                 media =new Movie(titulo,status, release_date, author,gender,review, cast,onde,duration, director, script);
 
+
             }
 
                 //Entradas específicas para livro
@@ -343,13 +340,13 @@ public class Media {
         }
 
         //Filtro por ator
-        else if (entrada.equals("ATOR NO ELENCO")) {
+        else if (entrada.equals("ATOR")) {
             System.out.print("Digite o nome do ator: ");
             String Ator = getStringInput();
 
             Pessoa ator = atores.stream()
                     .filter(p ->
-                    p.getNome().equalsIgnoreCase(Ator))
+                    p.getFunção().equalsIgnoreCase(Ator))
                     .findFirst()
                     .orElse(null);
 
@@ -413,8 +410,10 @@ public class Media {
                     String note = getStringInput().toUpperCase();
                     r.setNote(note);
 
-                    //atribui avaliação completa à mídia
-                    find.setReview(r);
+                        //atribui avaliação completa à mídia
+                        find.setReview(r);
+
+
 
                     if (find == null) {
                         System.out.println("Mídia não encontrada!");
