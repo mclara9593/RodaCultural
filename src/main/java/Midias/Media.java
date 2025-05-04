@@ -23,6 +23,7 @@ public class Media {
     private  Review review;
 
     //Getters and Setters
+
     public  String getTitle() {
         return title;
     }
@@ -186,8 +187,6 @@ public class Media {
 
                 //cria objeto tipo filme
                 media =new Movie(titulo,status, release_date, author,gender,review, cast,onde,duration, director, script);
-
-
             }
 
                 //Entradas específicas para livro
@@ -196,7 +195,16 @@ public class Media {
                 int ISBN = lerInteiro(sc, 0, 99999);
 
                 System.out.println("Possui cópias?: [S] ou [N]");
-                boolean copy = getCopyInput();
+                String entrada=sc.nextLine().toUpperCase();
+                boolean copy=false;
+                if (entrada.equals("S")) {
+                    copy=true;
+                }
+                else if (entrada.equals("N")) {
+                    copy=false;
+                }
+
+
 
                 System.out.println("Editora:");
                 String publisher = getStringInput();

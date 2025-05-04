@@ -3,6 +3,8 @@ package Controller;
 import Midias.Media;
 import Others.Gender;
 import Others.Pessoa;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -12,7 +14,7 @@ import static MenuUtils.SaveFile.load;
 import static MenuUtils.SaveFile.save;
 
 public class RodaCultural {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         List<Pessoa> atores = new ArrayList<>();
         List<Media> mídias = new ArrayList<>();
@@ -20,7 +22,9 @@ public class RodaCultural {
         String path = System.getProperty("user.dir") + "\\src\\main\\java\\MenuUtils.json";
         Scanner scanlmenu = new Scanner(System.in);
 
-        mídias=load(mídias,path);
+        mídias = load(mídias, path);
+        System.out.println("Mídias salvas localmente: " + mídias.size());
+
 
         while (true) {
             System.out.print("Bem vind@ à Roda Cultural!" + System.lineSeparator());

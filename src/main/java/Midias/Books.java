@@ -6,6 +6,8 @@ import Others.Review;
 
 import java.util.Scanner;
 
+import static MenuUtils.MenuUtilities.getStringInput;
+
 public class Books extends Media {
         private static int ISBN;
         private static Boolean copy;
@@ -38,19 +40,6 @@ public class Books extends Media {
                         "Cópia física: " + (copy ? "Sim" : "Não") + "\n" +
                         "Editora: " + publisher;
         }
-
-
-        public static Boolean getCopyInput() {
-                Scanner sc = new Scanner(System.in);
-                String sta=sc.nextLine();
-                if(sta.equals("S"))
-                        copy= Boolean.parseBoolean(String.valueOf(true));
-                else if(sta.equals("N"))
-                        copy= Boolean.parseBoolean(String.valueOf(false));
-                return copy;
-        }
-
-
 
         //Construtor
         public Books(String title,
