@@ -17,8 +17,6 @@ public class SaveFile {
     public static void save(List<Media> midias,String path) {
         Gson gson = new Gson();
         String json = gson.toJson(midias);
-
-
         try {
             FileWriter writer = new FileWriter(path);
             writer.write(json);

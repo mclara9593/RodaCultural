@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
+
 public class MenuUtilities {
     public static int lerInteiro(Scanner scanner, int min, int max) {
         while (true) {
@@ -41,7 +42,7 @@ public class MenuUtilities {
 
     public static String getStringInput() {
         Scanner scan = new Scanner(System.in);
-        return scan.nextLine();
+        return scan.nextLine().toUpperCase();
     }
 
 

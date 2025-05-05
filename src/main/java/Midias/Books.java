@@ -52,6 +52,9 @@ public class Books extends Media {
                      String publisher) {
             //construtor de Media
             super(title, status, release_date, gender, author,review);
+            this.copy = copy;
+            this.publisher = publisher;
+            this.ISBN = ISBN;
         }
 }
 

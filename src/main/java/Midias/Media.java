@@ -15,7 +15,7 @@ import static MenuUtils.MenuUtilities.*;
 import static Others.Pessoa.lerPessoa;
 
 public class Media {
-    private static String title;
+    private  String title;
     private  boolean status;
     private  int release_date;
     private static Gender gender;
@@ -76,15 +76,14 @@ public class Media {
     //Métodos para pegar a entrada dos atributos
 
     //Status
-    public static boolean getStatusInput() {
-        boolean status = false;
-        Scanner sc = new Scanner(System.in);
-        String sta=sc.nextLine();
+    public static boolean getBooleanInput() {
+        boolean bool = false;
+        String sta=getStringInput();
         if(sta.equals("S"))
-            status= Boolean.parseBoolean(String.valueOf(true));
+            bool= Boolean.parseBoolean(String.valueOf(true));
         else if(sta.equals("N"))
-            status= Boolean.parseBoolean(String.valueOf(false));
-        return status;
+            bool= Boolean.parseBoolean(String.valueOf(false));
+        return bool;
     }
 
     //Gênero
@@ -94,9 +93,8 @@ public class Media {
             System.out.println(gender.name() + " - " + gender.getDescricao());
         }
         System.out.println("Qual gênero corresponde ao seu título?:");
-        Scanner sc = new Scanner(System.in);
-        String entrada=sc.nextLine();
-        return Media.gender.valueOf(entrada.toUpperCase());
+        String entrada=getStringInput();
+        return gender.valueOf(entrada);
     }
 
 
@@ -145,7 +143,7 @@ public class Media {
             String titulo = getStringInput();
 
             System.out.println("Digite o status: o título já foi visto/lido?" + System.lineSeparator() + "[S] ou [N]");
-            Boolean status = getStatusInput();
+            Boolean status = getBooleanInput();
 
             System.out.println("Ano de lançamento:");
             int release_date = lerInteiro(sc,1000,2025);
@@ -195,22 +193,13 @@ public class Media {
                 int ISBN = lerInteiro(sc, 0, 99999);
 
                 System.out.println("Possui cópias?: [S] ou [N]");
-                String entrada=sc.nextLine().toUpperCase();
-                boolean copy=false;
-                if (entrada.equals("S")) {
-                    copy=true;
-                }
-                else if (entrada.equals("N")) {
-                    copy=false;
-                }
-
-
+                boolean copy =getBooleanInput();
 
                 System.out.println("Editora:");
                 String publisher = getStringInput();
 
                 //cria objeto tipo livro
-                media = new Books(title, status, release_date, author,review, gender, ISBN, copy, publisher);
+                media = new Books(titulo, status, release_date, author,review, gender, ISBN, copy, publisher);
 
             }
                 //Entradas específicas para série
@@ -231,7 +220,7 @@ public class Media {
                     System.out.println("Informações a respeito da temporada " + (n + 1) + ":");
 
                     //cria temporada
-                    Season temporada = new Season(title, status, release_date, gender,author,n,review);
+                    Season temporada = new Season(titulo, status, release_date, gender,author,n,review);
                     temporada.setSeason_number(n+1);
 
                     System.out.println("Quantidade de episódios:");
@@ -242,7 +231,7 @@ public class Media {
                 }
 
                 //cria objeto tipo serie
-                media = new Show(title, status, release_date, author, gender,review, cast, onde);
+                media = new Show(titulo, status, release_date, author, gender,review, cast, onde);
                 //Seta as temporadas
                 ((Show)media).setSeasons(seasons);
             }
@@ -444,7 +433,7 @@ public class Media {
             System.out.println("O título foi cadastrado como visto/lido.Não é possível alterar");
         }
         else{
-            Boolean status = getStatusInput();
+            Boolean status = getBooleanInput();
         }
     }
 
@@ -510,9 +499,3 @@ public class Media {
         }
     }
 }
-
-
-
-
-
-
