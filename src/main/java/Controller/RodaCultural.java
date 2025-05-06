@@ -12,6 +12,7 @@ import java.util.Scanner;
 import static MenuUtils.MenuUtilities.lerInteiro;
 import static MenuUtils.SaveFile.load;
 import static MenuUtils.SaveFile.save;
+import static Midias.Media.changeStatus;
 
 public class RodaCultural {
     public static void main(String[] args) throws IOException {
@@ -33,7 +34,8 @@ public class RodaCultural {
                     "2-AVALIAR" + System.lineSeparator() +
                     "3-BUSCAR" + System.lineSeparator() +
                     "4-LISTAR" + System.lineSeparator() +
-                    "5-SAIR" + System.lineSeparator());
+                    "5-MARCAR COMO CONCLUÍDO" + System.lineSeparator() +
+                    "6-SAIR" + System.lineSeparator());
             System.out.println();
 
             int opcaol = lerInteiro(scanlmenu, 1, 4);
@@ -73,6 +75,11 @@ public class RodaCultural {
             }
 
             else if (opcaol == 5) {
+                changeStatus(mídias,atores);
+
+            }
+
+            else if (opcaol == 6) {
                 System.out.println("Saindo do sistema...");
                 break;
             }

@@ -2,11 +2,9 @@ package Midias;
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
-import static Midias.Books.*;
+import com.google.gson.annotations.SerializedName;
+
 import static Midias.DigitalMedia.*;
-import static Midias.Movie.*;
-import static Midias.Season.*;
-import static Midias.Show.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -108,7 +106,6 @@ public class Media {
                 "Avaliação: " + (review != null ? review.getStars() : "Nenhuma") + " estrelas\n" +
                 "Nota: " + (review != null ? review.getNote() : "Nenhuma");
     }
-
 
     //Construtor
     public Media(String title, boolean status, int release_date, Gender gender, Pessoa author,Review review) {
@@ -213,6 +210,7 @@ public class Media {
                 cast = getCastInput(cast, mídias,titulo,atores);
 
                 //inicializa lista de temporadas
+                    System.out.println("Quantidade de temporadas:");
                 int seasons_number = lerInteiro(sc, 0, 99999);
                 List<Season> seasons = new ArrayList<>(); // Inicializa a lista de temporadas
 

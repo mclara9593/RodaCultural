@@ -26,9 +26,7 @@ public class SaveFile {
             e.printStackTrace();
             System.out.println("Nenhuma mídia salva.");
         }
-
-        System.out.println(json);
-
+        
     }
 
     public static List<Media> load(List<Media> midias,String path) {
