@@ -13,9 +13,10 @@ import static MenuUtils.MenuUtilities.lerInteiro;
 import static MenuUtils.SaveFile.load;
 import static MenuUtils.SaveFile.save;
 import static Midias.Media.changeStatus;
+import static Midias.Media.search;
 
 public class RodaCultural {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         List<Pessoa> atores = new ArrayList<>();
         List<Media> mídias = new ArrayList<>();
@@ -59,23 +60,31 @@ public class RodaCultural {
             }
 
             else if (opcaol == 2) {
-                Media revisada = Media.doReview(mídias,atores);
-                System.out.println();
-                System.out.println(revisada.toString());
-                System.out.println();
-
+                System.out.print("Quantos itens vai avaliar? ");
+                int a =lerInteiro(scanlmenu, 1, 50);
+                for (int i = 0; i < a; i++) {
+                    Media revisada = Media.doReview(mídias, atores);
+                    System.out.println();
+                    System.out.println(revisada.toString());
+                    System.out.println();
+                }
             }
 
             else if (opcaol == 3) {
                 Media find  =Media.search(mídias,atores);
+                System.out.println();
             }
 
             else if (opcaol == 4) {
                 Media.order(mídias);
+                System.out.println();
             }
 
             else if (opcaol == 5) {
-                changeStatus(mídias,atores);
+                Media media=search(mídias,atores);
+                Media changed=changeStatus(media);
+                System.out.println(changed.toString());
+                System.out.println();
 
             }
 

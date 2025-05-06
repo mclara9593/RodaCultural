@@ -4,10 +4,6 @@ import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
 
-import java.util.Scanner;
-
-import static MenuUtils.MenuUtilities.getStringInput;
-
 public class Books extends Media {
         private static int ISBN;
         private static Boolean copy;

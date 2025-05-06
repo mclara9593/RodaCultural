@@ -1,13 +1,5 @@
 package MenuUtils;
-
-import Midias.Books;
-import Midias.Media;
-import Midias.Movie;
-import Midias.Show;
-
-import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 
 public class MenuUtilities {
@@ -44,9 +36,5 @@ public class MenuUtilities {
         Scanner scan = new Scanner(System.in);
         return scan.nextLine().toUpperCase();
     }
-
-
-
-
 
 }

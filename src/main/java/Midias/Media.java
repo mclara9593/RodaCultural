@@ -2,7 +2,7 @@ package Midias;
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
-import com.google.gson.annotations.SerializedName;
+
 
 import static Midias.DigitalMedia.*;
 import java.util.ArrayList;
@@ -341,12 +341,13 @@ public class Media {
 
             Pessoa ator = atores.stream()
                     .filter(p ->
-                    p.getFunção().equalsIgnoreCase(Ator))
+                    p.getNome().equalsIgnoreCase(Ator))
                     .findFirst()
                     .orElse(null);
 
             if (ator != null && ator.getObra() != null) {
                 String tituloObra = ator.getObra();
+
                 encontrada = Mídias.stream()
                         .filter(m -> m.getTitle() != null &&
                                 m.getTitle().equalsIgnoreCase(tituloObra))
@@ -368,22 +369,12 @@ public class Media {
     //Fazer avalição
     public static Media doReview(List<Media> Mídias,List<Pessoa> atores){
         Scanner scan = new Scanner(System.in);
-
-        System.out.print("Quantos itens vai avaliar? ");
-        int a = scan.nextInt();
-        scan.nextLine();
-
-        Media find_reviewd = null;
-
-        for (int i = 0; i < a; i++) {
-
             //busca a  midia a ser avalaida
             System.out.print("Informações a respeito do título a ser avaliado "+ System.lineSeparator());
             Media find=search(Mídias,atores);
 
             //verifica se a midia ja foi assistida/lida
-            if (!find.isStatus()) {
-
+            if (!find.status) {
                 System.out.println("O título '"+ find.getTitle()+"' foi cadastrado como não visto/lido.Deseja alterar? [S] ou [N]");
                 String mudar=getStringInput().toUpperCase();
 
@@ -391,48 +382,43 @@ public class Media {
                     System.out.println("Não foi possível avaliar.");
                 }else{
                     find.setStatus(true);
+                }
+            }
+                //avaliar
+                Review r = new Review();
 
-                    //avaliar
-                    Review r = new Review();
+                //preenche avaliação de nota
+                System.out.println("Digite a nota que você atribui a esse título:");
+                int stars=lerInteiro(scan,1,5);
+                r.setStars(stars);
 
-                    //preenche avaliação de nota
-                    System.out.println("Digite a nota que você atribui a esse título:");
-                    int stars=lerInteiro(scan,1,5);
-                    r.setStars(stars);
+                //preenche avaliação de texto
+                System.out.println("O que você achou de "+ find.getTitle()+" :");
+                String note = getStringInput().toUpperCase();
+                r.setNote(note);
 
-                    //preenche avaliação de texto
-                    System.out.println("O que você achou de "+ find.getTitle()+" :");
-                    String note = getStringInput().toUpperCase();
-                    r.setNote(note);
-
-                        //atribui avaliação completa à mídia
-                        find.setReview(r);
+            //atribui avaliação completa à mídia
+            find.setReview(r);
 
 
-
-                    if (find == null) {
-                        System.out.println("Mídia não encontrada!");
-                        continue; // Ou retorne null
-                    }
+                if (find == null) {
+                    System.out.println("Mídia não encontrada!");
 
                 }
-
-            }
-            find_reviewd=find;
-        }
-       return find_reviewd;
+       return find;
     }
 
 
-    public static void changeStatus(List<Media> Mídias, List <Pessoa> atores) {
-        Media change=search(Mídias,atores);
+    public static Media changeStatus(Media change) {
         System.out.println("Digite o status: o título já foi visto/lido?"+ "[S] ou [N]");
         if (change.isStatus()) {
             System.out.println("O título foi cadastrado como visto/lido.Não é possível alterar");
         }
         else{
             Boolean status = getBooleanInput();
+            change.setStatus(status);
         }
+        return change;
     }
 
 

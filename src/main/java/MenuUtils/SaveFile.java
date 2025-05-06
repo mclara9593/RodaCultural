@@ -1,15 +1,10 @@
 package MenuUtils;
 import Midias.Media;
-import Midias.Media.*;
-import Controller.RodaCultural.*;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
 
-import org.json.JSONObject;
-import org.json.JSONArray;
 
 import com.google.gson.Gson;
 
