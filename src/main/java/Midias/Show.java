@@ -3,13 +3,9 @@ package Midias;
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
-import static MenuUtils.MenuUtilities.*;
-
 
 public class Show extends DigitalMedia {
     private static int seasons_number;
@@ -29,15 +25,12 @@ public class Show extends DigitalMedia {
         this.seasons = seasons;
     }
 
-
-    @Override
     public String toString() {
         return super.toString() + "\n" +
                 "Temporadas: " + (seasons != null ? seasons.stream()
                 .map(Season::toString)
                 .collect(Collectors.joining("\n---\n")) : "Nenhuma");
     }
-
 
     public static void addSeason(Season season) {
         if (seasons == null) {
@@ -46,15 +39,16 @@ public class Show extends DigitalMedia {
         seasons.add(season);
     }
 
-
     //Construtor
     public Show(String title, boolean status, int release_date,
-                Pessoa author, Gender gender, Review review, List<Pessoa> cast, String onde) {
+                Pessoa author, Gender gender, Review review, List<Pessoa> cast,
+                String onde,int Seasons_number) {
+
         super(title, status, release_date, author, gender, onde,review);
+        this.seasons_number = Seasons_number;
         this.seasons = new ArrayList<>();
         this.setCast(cast);
+        this.tipo="Show";
     }
-
-
 
 }

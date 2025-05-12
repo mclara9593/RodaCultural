@@ -21,10 +21,13 @@ public class RodaCultural {
         List<Pessoa> atores = new ArrayList<>();
         List<Media> mídias = new ArrayList<>();
 
-        String path = System.getProperty("user.dir") + "\\src\\main\\java\\MenuUtils.json";
+        String path = System.getProperty("user.dir") + "\\src\\main\\java\\All.json";
+        String path1 = System.getProperty("user.dir") + "\\src\\main\\java\\Livros.json";
+        String path2 = System.getProperty("user.dir") + "\\src\\main\\java\\Filmes.json";
+        String path3 = System.getProperty("user.dir") + "\\src\\main\\java\\Series.json";
         Scanner scanlmenu = new Scanner(System.in);
 
-        mídias = load(mídias, path);
+        mídias = load(mídias,path);
         System.out.println("Mídias salvas localmente: " + mídias.size());
 
 
@@ -41,7 +44,6 @@ public class RodaCultural {
 
             int opcaol = lerInteiro(scanlmenu, 1, 4);
 
-
             if (opcaol == 1) {
                 Media midia = Media.register(mídias,atores);
                 if (midia != null) {
@@ -55,7 +57,7 @@ public class RodaCultural {
                         System.out.println(midia.toString());
                         System.out.println();
                     }
-                    save(mídias,path);
+                    save(mídias,path1,path2,path3,path);
                 }
             }
 

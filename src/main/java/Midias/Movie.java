@@ -14,26 +14,13 @@ public class Movie extends DigitalMedia {
     private static Pessoa director;
     private  String script;
 
-    public  int getDuration() {
-        return duration;
-    }
-    public static Pessoa getDirector() {
-        return director;
-    }
-    public  String getScript() {
-        return script;
-    }
+    public int getDuration() {return duration;}
+    public String getScript() {return script;}
+    public Pessoa getDirector() {return director;}
 
-    public void setDuration(int duration) {
-        this.duration = duration;
-    }
-    public void setDirector(Pessoa director) {
-        this.director = director;
-    }
-    public void setScript(String script) {
-        this.script = script;
-    }
-
+    public void setDirector(Pessoa director) {this.director = director;}
+    public void setDuration(int duration) {this.duration = duration;}
+    public void setScript(String script) {this.script = script;}
 
     public String toString() {
         return super.toString() + "\n" +
@@ -55,6 +42,7 @@ public class Movie extends DigitalMedia {
         this.director = director;
         this.setCast(cast);
         setReview(review);
+        this.tipo="Movie";
     }
 }
 

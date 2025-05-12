@@ -2,12 +2,11 @@ package Midias;
 import Others.Gender;
 import Others.Pessoa;
 import Others.Review;
-
-
+import java.util.Comparator;
+import java.util.stream.Collectors;
 import static Midias.DigitalMedia.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.Scanner;
 import static MenuUtils.MenuUtilities.*;
 import static Others.Pessoa.lerPessoa;
@@ -19,6 +18,8 @@ public class Media {
     private static Gender gender;
     private  Pessoa author;
     private  Review review;
+    protected String tipo;
+
 
     //Getters and Setters
 
@@ -229,10 +230,11 @@ public class Media {
                 }
 
                 //cria objeto tipo serie
-                media = new Show(titulo, status, release_date, author, gender,review, cast, onde);
+                media = new Show(titulo, status, release_date, author, gender,review, cast, onde,seasons_number);
                 //Seta as temporadas
                 ((Show)media).setSeasons(seasons);
             }
+
             result = media;
 
         }
@@ -388,6 +390,7 @@ public class Media {
                 Review r = new Review();
 
                 //preenche avaliação de nota
+                System.out.println();
                 System.out.println("Digite a nota que você atribui a esse título:");
                 int stars=lerInteiro(scan,1,5);
                 r.setStars(stars);
@@ -421,12 +424,10 @@ public class Media {
         return change;
     }
 
-
-
     public static void order(List<Media> Mídias) {
 
         //saber qual lista buscar
-        System.out.println("Que tipo de lista deseja vizualizar?" + System.lineSeparator() + "F(Filme), S(Série) ou L(Livro):");
+        System.out.println("Que tipo de lista deseja vizualizar?" + System.lineSeparator() + "F(Filme), S(Série),L(Livro) ou T(Todos os títulos):");
         String type = getMediaType();
 
         List<? extends Media> filteredList = List.of();
@@ -452,6 +453,10 @@ public class Media {
                     .map(m -> (Show) m)
                     .collect(Collectors.toList());
         }
+        else if (type.equals("T")) {
+            filteredList=Mídias;
+
+        }
 
         System.out.println("Lista de"+ type);
         filteredList.stream().forEach(System.out::println);
@@ -463,8 +468,8 @@ public class Media {
         System.out.println();
         for (int i = 0; i < num; i++) {
 
-            System.out.println("Como deseja buscar? "+ System.lineSeparator() + " Gênero" + System.lineSeparator() + " Ano" + System.lineSeparator() );
-            String como=getStringInput().toUpperCase();
+            System.out.println("Como deseja buscar? "+ System.lineSeparator() + " Gênero" + System.lineSeparator() + " Ano" + System.lineSeparator() +"Nota" );
+            String como=getStringInput();
 
             if (como.equals("GÊNERO")) {
                 Gender gender = getGenderInput();
@@ -480,6 +485,14 @@ public class Media {
                         .filter(m -> m.getRelease_date()==(year))
                         .forEach(System.out::println);
             }
+            else if (como.equals("NOTA")) {
+            filteredList.stream()
+                    .sorted(Comparator.comparing(m -> m.getReview().getStars()))
+                    .collect(Collectors.toList())
+                    .forEach(System.out::println);
+
+            }
+
         }
     }
 }

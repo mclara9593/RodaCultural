@@ -1,5 +1,9 @@
 package MenuUtils;
+import Midias.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 public class MenuUtilities {
@@ -36,5 +40,41 @@ public class MenuUtilities {
         Scanner scan = new Scanner(System.in);
         return scan.nextLine().toUpperCase();
     }
+
+//    public static List<? extends Media> getLists(List<Media> Mídias, String type) {
+//        List<? extends Media> specify = new ArrayList<>();
+//        //List<? extends Media> result = new ArrayList<>();
+//        switch (type) {
+//            case "B":
+//                specify = Mídias.stream()
+//                        .filter(m -> m instanceof Books)
+//                        .map(m -> (Books) m)
+//                        .collect(Collectors.toList());
+//            case "M":
+//                specify = Mídias.stream()
+//                        .filter(m -> m instanceof Movie)
+//                        .map(m -> (Movie) m)
+//                        .collect(Collectors.toList());
+//            case "S":
+//                specify = Mídias.stream()
+//                        .filter(m -> m instanceof Show)
+//                        .map(m -> (Show) m)
+//                        .collect(Collectors.toList());
+//
+//        }
+//        return specify;
+//    }
+
+    public static List<Media> getLists(List<Media> midias, String tipo) {
+        return midias.stream()
+                .filter(m -> {
+                    if (tipo.equals("B")) return m instanceof Books;
+                    if (tipo.equals("M")) return m instanceof Movie;
+                    if (tipo.equals("S")) return m instanceof Show;
+                    return false;
+                })
+                .collect(Collectors.toList());
+    }
+
 
 }

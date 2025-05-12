@@ -5,7 +5,7 @@ public class Review {
     public static String note;
     public static int stars;
 
-    public int getStars() {
+    public static int getStars() {
         return stars;
     }
 

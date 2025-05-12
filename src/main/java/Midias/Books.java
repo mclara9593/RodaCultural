@@ -51,6 +51,7 @@ public class Books extends Media {
             this.copy = copy;
             this.publisher = publisher;
             this.ISBN = ISBN;
+            this.tipo="Book";
         }
 }
 
