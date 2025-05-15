@@ -17,26 +17,27 @@ import static MenuUtils.MenuUtilities.getLists;
 public class SaveFile {
 
     public static void save(List<Media> midias,String pathLivros,String pathMovies,String pathShows,String path) {
+
         Gson gsonAll = new GsonBuilder()
-                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
-                    @Override
-                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
-                        return new JsonPrimitive(src.getDescricao()); // Usa a descrição do enum
-                    }
-                })
+//                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
+//                    @Override
+//                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
+//                        return new JsonPrimitive(src.getDescricao());
+//                    }
+//                })
                 .setPrettyPrinting().create();
 
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
-                    @Override
-                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
-                        return new JsonPrimitive(src.getDescricao());
-                    }
-                })
-                .setPrettyPrinting().create();
+//        Gson gson = new GsonBuilder()
+//                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
+//                    @Override
+//                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
+//                        return new JsonPrimitive(src.getDescricao());
+//                    }
+//                })
+//                .setPrettyPrinting().create();
 
 
-        //Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
         List<? extends Media>books= getLists(midias,"B");
         List<? extends Media>movies= getLists(midias,"M");
         List<? extends Media>shows= getLists(midias,"S");

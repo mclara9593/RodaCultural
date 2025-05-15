@@ -15,7 +15,7 @@ public class Media {
     private  String title;
     private  boolean status;
     private  int release_date;
-    private static Gender gender;
+    private Gender gender;
     private  Pessoa author;
     private  Review review;
     protected String tipo;
@@ -93,7 +93,7 @@ public class Media {
         }
         System.out.println("Qual gênero corresponde ao seu título?:");
         String entrada=getStringInput();
-        return gender.valueOf(entrada);
+        return Gender.valueOf(entrada);
     }
 
 

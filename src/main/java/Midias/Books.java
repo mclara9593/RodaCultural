@@ -5,21 +5,20 @@ import Others.Pessoa;
 import Others.Review;
 
 public class Books extends Media {
-        private static int ISBN;
-        private static Boolean copy;
-        private static String publisher;
+        private int ISBN;
+        private Boolean copy;
+        private String publisher;
 
-
-        public static int getISBN() {
+        public int getISBN() {
                 return ISBN;
         }
-        public static Boolean getCopy() {
+        public Boolean getCopy() { // Remova 'static'
                 return copy;
         }
-        public static String getPublisher() {
+        public String getPublisher() { // Remova 'static'
                 return publisher;
         }
-        
+
         public void setISBN(int ISBN) {
                 this.ISBN = ISBN;
         }
