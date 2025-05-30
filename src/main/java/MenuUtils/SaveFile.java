@@ -5,12 +5,11 @@ import Midias.Show;
 import Midias.Media;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
-
-import Others.Gender;
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
+
 import static MenuUtils.MenuUtilities.getLists;
 
 
@@ -18,26 +17,9 @@ public class SaveFile {
 
     public static void save(List<Media> midias,String pathLivros,String pathMovies,String pathShows,String path) {
 
-        Gson gsonAll = new GsonBuilder()
-//                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
-//                    @Override
-//                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
-//                        return new JsonPrimitive(src.getDescricao());
-//                    }
-//                })
-                .setPrettyPrinting().create();
-
-//        Gson gson = new GsonBuilder()
-//                .registerTypeAdapter(Gender.class, new JsonSerializer<Gender>() {
-//                    @Override
-//                    public JsonElement serialize(Gender src, Type typeOfSrc, JsonSerializationContext context) {
-//                        return new JsonPrimitive(src.getDescricao());
-//                    }
-//                })
-//                .setPrettyPrinting().create();
-
-
+        Gson gsonAll = new GsonBuilder().setPrettyPrinting().create();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
         List<? extends Media>books= getLists(midias,"B");
         List<? extends Media>movies= getLists(midias,"M");
         List<? extends Media>shows= getLists(midias,"S");
@@ -70,21 +52,47 @@ public class SaveFile {
 
     }
 
-    public static List<Media> load(List<Media> midias,String path) {
-        Gson gson = new Gson();
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+    public static List<Media> load(List<Media> midias, String path) {
 
-            java.lang.reflect.Type listType = new com.google.gson.reflect.TypeToken<List<Media>>() {}.getType();
 
+        JsonDeserializer Deserializer=new JsonDeserializer<Media>() {
+            @Override
+            public Media deserialize(
+                    JsonElement json,
+                    Type typeOfT,
+                    JsonDeserializationContext context
+
+            ) throws JsonParseException {
+                JsonObject jsonObject = json.getAsJsonObject();
+                String tipo = jsonObject.get("tipo").getAsString();
+
+                // Desserializa conforme o tipo
+                switch (tipo) {
+                    case "Book":
+                        return context.deserialize(json, Books.class);
+                    case "Movie":
+                        return context.deserialize(json, Movie.class);
+                    case "Show":
+                        return context.deserialize(json, Show.class);
+                    default:
+                        throw new JsonParseException("Tipo desconhecido: " + tipo);
+                }
+            }
+        };
+
+        Gson gson = new GsonBuilder().registerTypeAdapter(Media.class,Deserializer).create();
+
+        try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+            Type listType = new TypeToken<List<Media>>() {}.getType();
             List<Media> loadedMidias = gson.fromJson(br, listType);
             midias.addAll(loadedMidias);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
         return midias;
     }
+
+
 
 
 

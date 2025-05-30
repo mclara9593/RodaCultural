@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import static MenuUtils.MenuUtilities.*;
+import static Midias.Show.getShowNote;
 import static Others.Pessoa.lerPessoa;
 
 public class Media {
@@ -99,13 +100,15 @@ public class Media {
 
     //ToString
     public String toString() {
-        return "Título: " + title + "\n" +
+        return  "\n"+
+                "Título: " + title + "\n" +
                 "Status: " + (status ? "Concluído" : "Não concluído") + "\n" +
                 "Ano lançamento: " + release_date + "\n" +
                 "Gênero: " + gender + "\n" +
                 "Autor: " + (author != null ? author.getNome() : "Desconhecido") + "\n" +
                 "Avaliação: " + (review != null ? review.getStars() : "Nenhuma") + " estrelas\n" +
                 "Nota: " + (review != null ? review.getNote() : "Nenhuma");
+
     }
 
     //Construtor
@@ -225,12 +228,15 @@ public class Media {
                     System.out.println("Quantidade de episódios:");
                     temporada.setEpisodes_number(lerInteiro(sc, 0, 999999999));
 
+                    System.out.println("Data de lançamento:");
+                    temporada.setRelease_date_season(lerInteiro(sc, 1000, 2025));
+
                     //cria temporada na serie
                     seasons.add(temporada);
                 }
 
                 //cria objeto tipo serie
-                media = new Show(titulo, status, release_date, author, gender,review, cast, onde,seasons_number);
+                media = new Show(titulo, status, release_date,final_date, author, gender,review, cast, onde,seasons_number);
                 //Seta as temporadas
                 ((Show)media).setSeasons(seasons);
             }
@@ -259,6 +265,7 @@ public class Media {
 
         }
 
+        System.out.println();
 
         //Filtro por título
         Media encontrada = null;
@@ -386,28 +393,52 @@ public class Media {
                     find.setStatus(true);
                 }
             }
+
+            if( find.review.getStars()!=0){
+                System.out.println("(O título "+find.getTitle()+" já foi avaliado,os campos serão sobrescritos)");
+            }
                 //avaliar
                 Review r = new Review();
 
-                //preenche avaliação de nota
+            //Se o objeto for do tipo show,suas estrelas são calculadas a partir da média das temporadas
+            if ( find instanceof Show) {
                 System.out.println();
-                System.out.println("Digite a nota que você atribui a esse título:");
-                int stars=lerInteiro(scan,1,5);
-                r.setStars(stars);
+                //avaliando temporadas
+                for (Season s : ((Show) find).getSeasons()) {
+                    System.out.println("Digite a nota que você atribui à temporada:"+ s.getSeason_number());
+                    int stars = lerInteiro(scan, 1, 5);
+                    s.getReview().setStars(stars);
+                }
+                //Se o objeto for do tipo show,suas estrelas são calculadas a partir da média das temporadas
+                r.setStars(getShowNote(((Show) find).getSeasons()));
 
+                System.out.println();
                 //preenche avaliação de texto
-                System.out.println("O que você achou de "+ find.getTitle()+" :");
+                System.out.println("O que você achou de " + find.getTitle() + " :");
                 String note = getStringInput().toUpperCase();
                 r.setNote(note);
 
+
+            }else{
+                //preenche avaliação de nota
+                System.out.println();
+                System.out.println("Digite a nota que você atribui a esse título:");
+                int stars = lerInteiro(scan, 1, 5);
+                r.setStars(stars);
+
+                //preenche avaliação de texto
+                System.out.println("O que você achou de " + find.getTitle() + " :");
+                String note = getStringInput().toUpperCase();
+                r.setNote(note);
+            }
             //atribui avaliação completa à mídia
             find.setReview(r);
 
+            if (find == null) {
+                System.out.println("Mídia não encontrada!");
 
-                if (find == null) {
-                    System.out.println("Mídia não encontrada!");
+            }
 
-                }
        return find;
     }
 
@@ -452,10 +483,6 @@ public class Media {
                     .filter(m -> m instanceof Show)
                     .map(m -> (Show) m)
                     .collect(Collectors.toList());
-        }
-        else if (type.equals("T")) {
-            filteredList=Mídias;
-
         }
 
         System.out.println("Lista de"+ type);

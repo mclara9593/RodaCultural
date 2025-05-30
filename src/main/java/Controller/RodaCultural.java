@@ -27,7 +27,8 @@ public class RodaCultural {
         String path3 = System.getProperty("user.dir") + "\\src\\main\\java\\Series.json";
         Scanner scanlmenu = new Scanner(System.in);
 
-        mídias = load(mídias,path);
+        mídias = load(mídias, path);
+
         System.out.println("Mídias salvas localmente: " + mídias.size());
 
 
@@ -38,11 +39,11 @@ public class RodaCultural {
                     "2-AVALIAR" + System.lineSeparator() +
                     "3-BUSCAR" + System.lineSeparator() +
                     "4-LISTAR" + System.lineSeparator() +
-                    "5-MARCAR COMO CONCLUÍDO" + System.lineSeparator() +
+                    "5-MARCAR TÍTULO COMO VIZUALIZADO/LIDO" + System.lineSeparator() +
                     "6-SAIR" + System.lineSeparator());
             System.out.println();
 
-            int opcaol = lerInteiro(scanlmenu, 1, 4);
+            int opcaol = lerInteiro(scanlmenu, 1, 6);
 
             if (opcaol == 1) {
                 Media midia = Media.register(mídias,atores);
