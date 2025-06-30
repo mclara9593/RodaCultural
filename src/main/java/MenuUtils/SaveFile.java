@@ -1,10 +1,11 @@
 package MenuUtils;
-import Midias.Books;
-import Midias.Movie;
-import Midias.Show;
-import Midias.Media;
+import Model.Books;
+import Model.Movie;
+import Model.Show;
+import Model.Media;
 import java.io.*;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.io.FileWriter;
 import com.google.gson.*;
@@ -15,7 +16,7 @@ import static MenuUtils.MenuUtilities.getLists;
 
 public class SaveFile {
 
-    public static void save(List<Media> midias,String pathLivros,String pathMovies,String pathShows,String path) {
+    public static void save(List<Media> midias,String path) {
 
         Gson gsonAll = new GsonBuilder().setPrettyPrinting().create();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -30,20 +31,6 @@ public class SaveFile {
                 writer.write(json);
                 writer.close();
 
-                String json1 = gson.toJson(books);
-                FileWriter writerLivros = new FileWriter(pathLivros);
-                writerLivros.write(json1);
-                writerLivros.close();
-
-                String json2 = gson.toJson(movies);
-                FileWriter writerMovies = new FileWriter(pathMovies);
-                writerMovies.write(json2);
-                writerMovies.close();
-
-                String json3 = gson.toJson(shows);
-                FileWriter writerShows = new FileWriter(pathShows);
-                writerShows.write(json3);
-                writerShows.close();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -85,19 +72,41 @@ public class SaveFile {
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
             Type listType = new TypeToken<List<Media>>() {}.getType();
             List<Media> loadedMidias = gson.fromJson(br, listType);
-            midias.addAll(loadedMidias);
+            if(loadedMidias!=null){
+                midias.addAll(loadedMidias);
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return midias;
     }
 
-
-
+    // MenuUtils.SaveFile
+//    public static List<Media> load(List<Media> currentList, String path) {
+//        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path))) {
+//            List<Media> loadedList = (List<Media>) ois.readObject();
+//
+//            // Tratar caso o arquivo esteja vazio ou seja a primeira execução
+//            if (loadedList == null) {
+//                return currentList != null ? currentList : new ArrayList<>();
+//            }
+//
+//            if (currentList == null) {
+//                currentList = new ArrayList<>();
+//            }
+//
+//            currentList.addAll(loadedList);
+//            return currentList;
+//        } catch (FileNotFoundException e) {
+//            // Arquivo não existe - retorna lista atual ou nova lista vazia
+//            return currentList != null ? currentList : new ArrayList<>();
+//        } catch (IOException | ClassNotFoundException e) {
+//            e.printStackTrace();
+//            return currentList != null ? currentList : new ArrayList<>();
+//        }
+//    }
 
 
 
 }
-
-
-

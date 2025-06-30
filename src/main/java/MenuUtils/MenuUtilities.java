@@ -1,6 +1,6 @@
 package MenuUtils;
-import Midias.*;
-import java.util.ArrayList;
+import Model.*;
+
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;

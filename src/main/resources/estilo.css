@@ -1,0 +1,60 @@
+.root {
+    -fx-font-family: "Roboto Light";
+    -fx-font-size: 20px;
+    -fx-background-color: #330066; /* Cor de fundo da janela */
+}
+
+.button {
+    -fx-background-color: #7851a9; /* Fundo do botão */
+    -fx-text-fill: white;          /* Cor do texto */
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+
+
+#mainTitle {
+    -fx-fill: #330063;
+    -fx-font-weight: bold;
+    -fx-font-size: 26px;
+}
+
+.label {
+    -fx-background-color: #7851a9; /* Fundo do botão */
+    -fx-text-fill: white;          /* Cor do texto */
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+
+.custom-button {
+    -fx-background-color: #7851a9; /* Fundo do botão */
+    -fx-text-fill: white;          /* Cor do texto */
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+}
+
+
+/* styles.css */
+.custom-scroll-pane {
+    -fx-background-color: #f0e8ff;
+    -fx-background-radius: 10;
+    -fx-padding: 10;
+}
+
+.custom-scroll-pane .scroll-bar:vertical {
+    -fx-background-color: transparent;
+}
+
+.custom-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #b98cdc;
+    -fx-background-radius: 5em;
+}
+
+.custom-scroll-pane .scroll-bar:horizontal .thumb {
+    -fx-background-color: #b98cdc;
+    -fx-background-radius: 5em;
+}
+
+.custom-scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
