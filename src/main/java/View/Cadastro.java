@@ -1,5 +1,6 @@
 package View;
 
+import MenuUtils.Utilitie;
 import Model.*;
 import Model.Others.*;
 import javafx.geometry.Insets;
@@ -12,13 +13,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static MenuUtils.SaveFile.save;
-import static View.ViewUtilitie.showInfoAlert;
+import static MenuUtils.SaveFile.saveActors;
+import static MenuUtils.Utilitie.showInfoAlert;
 
+/**
+ * Constrói a tela de cadastro de mídias.
+ */
 public class Cadastro extends VBox {
 
     private VBox conteudoFormulario;
 
-    public Cadastro(List<Media> midias, String path, Button btnVoltar) {
+    public Cadastro(List<Media> midias, String path, List<Pessoa>atores,String pathActors ) {
         this.setSpacing(10);
         this.setStyle("-fx-alignment: center; -fx-padding: 20;");
 
@@ -29,7 +34,7 @@ public class Cadastro extends VBox {
         titleBox.setPadding(new Insets(10));
         titleBox.setPrefSize(300, 60);
 
-        ViewUtilitie.MediaTypeChooserPane typeChooser = new ViewUtilitie.MediaTypeChooserPane();
+        Utilitie.MediaTypeChooserPane typeChooser = new Utilitie.MediaTypeChooserPane();
         conteudoFormulario = new VBox(10);
         conteudoFormulario.setPadding(new Insets(10));
 
@@ -41,10 +46,10 @@ public class Cadastro extends VBox {
             conteudoFormulario.getChildren().clear();
             switch (mediaType) {
                 case "Movie":
-                    criarFormularioFilme(new Movie(), midias, path);
+                    criarFormularioFilme(new Movie(), midias, path,atores,pathActors);
                     break;
                 case "Show":
-                    criarFormularioSerie(new Show(), midias, path);
+                    criarFormularioSerie(new Show(), midias, path,atores,pathActors);
                     break;
                 case "Book":
                     criarFormularioLivro(new Books(), midias, path);
@@ -55,7 +60,11 @@ public class Cadastro extends VBox {
         this.getChildren().addAll(titleBox, typeChooser, scrollPane);
     }
 
-    // Método auxiliar para criar campos numéricos com validação
+    /**
+     * Cria um campo de texto numérico com validação.
+     *
+     * @return TextField configurado para aceitar apenas números
+     */
     private TextField createNumericField() {
         TextField field = new TextField();
         field.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -67,7 +76,14 @@ public class Cadastro extends VBox {
         return field;
     }
 
-    private void criarFormularioFilme(Movie movie, List<Media> midias, String path) {
+    /**
+     * Cria o formulário para cadastro de filmes.
+     *
+     * @param movie Objeto Movie a ser preenchido
+     * @param midias Lista de mídias para adicionar o filme
+     * @param path Caminho do arquivo para salvar
+     */
+    private void criarFormularioFilme(Movie movie, List<Media> midias, String path,List<Pessoa> atores,String pathActors) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -124,18 +140,20 @@ public class Cadastro extends VBox {
 
                 if(movie.getCast()==null){
                     List<Pessoa> cast = new ArrayList<>();
-                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase());
+                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase(),atores);
                     movie.setCast(cast);
                 }else {
                     List<Pessoa> cast=movie.getCast();
-                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase());
+                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase(),atores);
                     movie.setCast(cast);
                 }
 
-
-
                 midias.add(movie);
                 save(midias, path);
+                saveActors( atores, pathActors);
+
+
+
                 showInfoAlert("Filme salvo com sucesso!");
 
             } catch (NumberFormatException ex) {
@@ -146,6 +164,13 @@ public class Cadastro extends VBox {
         conteudoFormulario.getChildren().addAll(grid, new HBox(10, btnSalvar));
     }
 
+    /**
+     * Cria o formulário para cadastro de livros.
+     *
+     * @param book Objeto Books a ser preenchido
+     * @param midias Lista de mídias para adicionar o livro
+     * @param path Caminho do arquivo para salvar
+     */
     private void criarFormularioLivro(Books book, List<Media> midias, String path) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
@@ -207,7 +232,15 @@ public class Cadastro extends VBox {
         conteudoFormulario.getChildren().addAll(grid, new HBox(10, btnSalvar));
     }
 
-    private void criarFormularioSerie(Show show, List<Media> midias, String path) {
+
+    /**
+     * Cria o formulário para cadastro de séries.
+     *
+     * @param show Objeto Show a ser preenchido
+     * @param midias Lista de mídias para adicionar a série
+     * @param path Caminho do arquivo para salvar
+     */
+    private void criarFormularioSerie(Show show, List<Media> midias, String path,List<Pessoa>atores,String pathActors) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -270,16 +303,18 @@ public class Cadastro extends VBox {
 
                 if(show.getCast()==null){
                     List<Pessoa> cast = new ArrayList<>();
-                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase());
+                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase(),atores);
                     show.setCast(cast);
                 }else {
                     List<Pessoa> cast=show.getCast();
-                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase());
+                    DigitalMedia.castList(cast,campoTitulo.getText(),campoAtores.getText().toUpperCase(),atores);
                     show.setCast(cast);
                 }
 
                 midias.add(show);
                 save(midias, path);
+                saveActors(atores,pathActors);
+
                 showInfoAlert("Série salva com sucesso!");
             } catch (NumberFormatException ex) {
                 showErrorAlert("Erro ao converter número: Por favor, preencha todos os campos numéricos corretamente.");
@@ -291,20 +326,18 @@ public class Cadastro extends VBox {
 
         btnTemporada.setOnAction(e -> {
             conteudoFormulario.getChildren().clear();
-            criarFormularioSeason(seasons, midias, path, show, Integer.parseInt(campoTemporadas.getText()));
+            criarFormularioSeason(seasons, midias, path, show, Integer.parseInt(campoTemporadas.getText()),atores,pathActors);
         });
 
         conteudoFormulario.getChildren().addAll(grid, new HBox(10, btnTemporada, btnSalvar));
     }
 
-    private void criarFormularioSeason(List<Season> seasons, List<Media> midias, String path, Show show,int seasons_number) {
+    private void criarFormularioSeason(List<Season> seasons, List<Media> midias, String path, Show show,int seasons_number,List<Pessoa>atores,String pathActors) {
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20));
 
-        // Campos específicos de temporada
-        //TextField number = createNumericField();
         TextField episodios = createNumericField();
         TextField releasedate = createNumericField();
 
@@ -342,7 +375,7 @@ public class Cadastro extends VBox {
 
                 // Voltar para o formulário da série
                 conteudoFormulario.getChildren().clear();
-                criarFormularioSerie(show, midias, path);
+                criarFormularioSerie(show, midias, path,atores,pathActors);
             } catch (NumberFormatException ex) {
                 showErrorAlert("Erro ao converter número. Preencha corretamente.");
             }
@@ -351,7 +384,11 @@ public class Cadastro extends VBox {
         conteudoFormulario.getChildren().addAll(grid, new HBox(10, btnSalvar));
     }
 
-    // mostrar erros
+    /**
+     * Exibe uma mensagem de erro em um Alert.
+     *
+     * @param message Mensagem de erro a ser exibida
+     */
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro de Formato");
@@ -360,7 +397,11 @@ public class Cadastro extends VBox {
         alert.showAndWait();
     }
 
-    // combobox
+    /**
+     * Cria um ComboBox para seleção de gêneros.
+     *
+     * @return ComboBox configurado com os gêneros disponíveis
+     */
     private ComboBox<Gender> comboGenero() {
         ComboBox<Gender> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(Gender.values());
@@ -379,6 +420,13 @@ public class Cadastro extends VBox {
         return comboBox;
     }
 
+    /**
+     * Cria um ComboBox para seleção de valores booleanos(status).
+     *
+     * @param trueLabel Texto para o valor verdadeiro
+     * @param falseLabel Texto para o valor falso
+     * @return ComboBox configurado com opções booleanas
+     */
     private ComboBox<Boolean> comboBoolean(String trueLabel, String falseLabel) {
         ComboBox<Boolean> comboBox = new ComboBox<>();
         comboBox.getItems().addAll(true, false);

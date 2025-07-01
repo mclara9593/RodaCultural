@@ -1,5 +1,6 @@
 package View;
 
+import MenuUtils.Utilitie;
 import Model.Media;
 import Model.Others.Pessoa;
 import Model.Others.Review;
@@ -13,8 +14,12 @@ import java.util.List;
 
 import static MenuUtils.SaveFile.save;
 import static Model.Media.*;
-import static View.ViewUtilitie.showInfoAlert;
+import static MenuUtils.Utilitie.showInfoAlert;
 
+/**
+ * Classe responsável pela interface de avaliação de mídias.
+ * Permite avaliar filmes, séries e livros.
+ */
 public class Avaliacao extends VBox {
 
     private VBox conteudoFormulario;
@@ -24,9 +29,8 @@ public class Avaliacao extends VBox {
     private Media midiaSelecionada;
     private List<Review> avaliacoesTemporadas = new ArrayList<>();
 
-    public Avaliacao(List<Media> midias, List<Pessoa> atores, String path, Button btnVoltar) {
+    public Avaliacao(List<Media> midias,  String path, Button btnVoltar) {
         this.midias = midias;
-        this.atores = atores;
         this.path = path;
 
         this.setSpacing(10);
@@ -41,7 +45,7 @@ public class Avaliacao extends VBox {
         titleBox.setPrefSize(300, 60);
 
         // Seletor de tipo de mídia para busca
-        ViewUtilitie.MediaTypeChooserPane typeChooser = new ViewUtilitie.MediaTypeChooserPane();
+        Utilitie.MediaTypeChooserPane typeChooser = new Utilitie.MediaTypeChooserPane();
 
         // Conteúdo que muda
         conteudoFormulario = new VBox(10);
@@ -75,6 +79,14 @@ public class Avaliacao extends VBox {
         this.getChildren().addAll(titleBox, typeChooser, scrollPane);
     }
 
+
+    /**
+     * Exibe o formulário de busca para filmes.
+     *
+     * @param midias Lista de mídias
+     * @param atores Lista de atores
+     * @param btnVoltar Botão de voltar
+     */
     private void mostrarBuscaFilme(List<Media> midias, List<Pessoa> atores, Button btnVoltar) {
         Label tipoMidia = new Label("Buscando filmes: ");
         tipoMidia.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
@@ -100,6 +112,12 @@ public class Avaliacao extends VBox {
         conteudoFormulario.getChildren().addAll(tipoMidia,grid, campoBusca, new HBox(10, btnBuscar, btnVoltar));
     }
 
+    /**
+     * Exibe o formulário de busca para livros.
+     *
+     * @param midias Lista de mídias
+     * @param btnVoltar Botão de voltar
+     */
     private void mostrarBuscaLivro(List<Media> midias, Button btnVoltar) {
         Label tipoMidia = new Label("Buscando livros: ");
         tipoMidia.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
@@ -125,6 +143,12 @@ public class Avaliacao extends VBox {
         conteudoFormulario.getChildren().addAll(tipoMidia,grid, campoBusca, new HBox(10, btnBuscar, btnVoltar));
     }
 
+    /**
+     * Exibe o formulário de busca para series.
+     *
+     * @param midias Lista de mídias
+     * @param btnVoltar Botão de voltar
+     */
     private void mostrarBuscaShow(List<Media> midias, Button btnVoltar) {
         Label tipoMidia = new Label("Buscando séries: ");
         tipoMidia.setStyle("-fx-font-weight: bold; -fx-font-size: 18;");
@@ -150,6 +174,11 @@ public class Avaliacao extends VBox {
         conteudoFormulario.getChildren().addAll(tipoMidia,grid, campoBusca, new HBox(10, btnBuscar, btnVoltar));
     }
 
+    /**
+     * Exibe o formulário de avaliação para a mídia selecionada.
+     *
+     * @param btnVoltar Botão de voltar
+     */
     private void exibirFormularioAvaliacao(Button btnVoltar) {
         conteudoFormulario.getChildren().clear();
 
@@ -217,7 +246,11 @@ public class Avaliacao extends VBox {
         conteudoFormulario.getChildren().addAll(tituloMidia, gridAvaliacao, new HBox(10, btnSalvar, btnVoltar));
     }
 
-    // NOVO MÉTODO PARA AVALIAÇÃO DE SÉRIES
+    /**
+     * Exibe o formulário de avaliação de temporadas para séries.
+     *
+     * @param btnVoltar Botão de voltar
+     */
     private void exibirFormularioAvaliacaoSerie(Button btnVoltar) {
         conteudoFormulario.getChildren().clear();
 
@@ -318,7 +351,7 @@ public class Avaliacao extends VBox {
         );
     }
 
-    // Métodos auxiliares (mantidos iguais)
+
     private GridPane criarGrid() {
         GridPane grid = new GridPane();
         grid.setHgap(10);

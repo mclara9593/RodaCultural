@@ -1,5 +1,8 @@
 package Model.Others;
-
+/**
+ * Classe enum que contém generos de filmes series e livros.
+ *
+ */
 public enum Gender {
     // Gêneros para filmes, livros e séries
     ACAO("Ação"),

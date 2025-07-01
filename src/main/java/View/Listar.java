@@ -1,5 +1,6 @@
 package View;
 
+import MenuUtils.Utilitie;
 import Model.Books;
 import Model.Media;
 import Model.Movie;
@@ -16,8 +17,10 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static Model.Media.*;
-
+/**
+ * Classe responsável pela interface de listagem de mídias.
+ * Exibe filmes, séries e livros cadastrados com detalhes.
+ */
 public class Listar extends VBox {
 
     private VBox conteudoFormulario;
@@ -40,7 +43,7 @@ public class Listar extends VBox {
         titleBox.setPrefSize(300, 60);
 
         // Seletor de tipo de mídia
-        ViewUtilitie.MediaTypeChooserPane typeChooser = new ViewUtilitie.MediaTypeChooserPane();
+        Utilitie.MediaTypeChooserPane typeChooser = new Utilitie.MediaTypeChooserPane();
 
         // Conteúdo que muda
         conteudoFormulario = new VBox(10);
@@ -73,6 +76,9 @@ public class Listar extends VBox {
         this.getChildren().addAll(titleBox, typeChooser, scrollPane);
     }
 
+    /**
+     * Exibe os filmes cadastrados.
+     */
     private void showAllMovies() {
         List<Media> filmes = midias.stream()
                 .filter(m -> m instanceof Movie)
@@ -81,6 +87,9 @@ public class Listar extends VBox {
         showMediaList(filmes, "Filmes");
     }
 
+    /**
+     * Exibe os livros cadastrados.
+     */
     private void showAllBooks() {
         List<Media> livros = midias.stream()
                 .filter(m -> m instanceof Books)
@@ -89,6 +98,9 @@ public class Listar extends VBox {
         showMediaList(livros, "Livros");
     }
 
+    /**
+     * Exibe as séries cadastradas.
+     */
     private void showAllShows() {
         List<Media> series = midias.stream()
                 .filter(m -> m instanceof Show)
@@ -97,6 +109,13 @@ public class Listar extends VBox {
         showMediaList(series, "Séries");
     }
 
+
+    /**
+     * Exibe a lista de mídias de um tipo específico.
+     *
+     * @param mediaList Lista de mídias a serem exibidas
+     * @param tipo Tipo de mídia (Filmes, Livros ou Séries)
+     */
     private void showMediaList(List<Media> mediaList, String tipo) {
         conteudoFormulario.getChildren().clear();
 
@@ -122,6 +141,11 @@ public class Listar extends VBox {
         conteudoFormulario.getChildren().add(btnVoltar);
     }
 
+    /**
+     * Exibe os detalhes pelo tipo de mídia.
+     *
+     * @param midia Mídia cujos detalhes serão exibidos
+     */
     private void exibirDetalhesMidia(Media midia) {
         conteudoFormulario.getChildren().clear();
 
@@ -184,6 +208,12 @@ public class Listar extends VBox {
         conteudoFormulario.getChildren().addAll(grid, new HBox(10, btnVoltarLista, btnVoltar));
     }
 
+    /**
+     * Formata a lista de atores para exibição.
+     *
+     * @param atores Lista de atores
+     * @return ‘String’ formatada com os nomes dos atores
+     */
     private String formatarAtores(List<Pessoa> atores) {
         if (atores == null || atores.isEmpty()) return "Nenhum ator cadastrado";
         return atores.stream()

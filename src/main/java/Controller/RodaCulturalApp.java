@@ -1,8 +1,7 @@
-package View;
+package Controller;
 
-import MenuUtils.SaveFile;
-import Model.Others.Pessoa;
 import Model.Media;
+import View.Menu;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,7 +10,7 @@ import java.util.List;
 
 public class RodaCulturalApp extends Application {
 
-    private static List<Media> midias = new ArrayList<>();
+    public static List<Media> midias = new ArrayList<>();
 
 
     public static List<Media> getMidias() {

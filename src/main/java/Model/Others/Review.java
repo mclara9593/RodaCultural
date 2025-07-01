@@ -1,6 +1,10 @@
 package Model.Others;
 
-
+/**
+ * Classe que representa avaliação
+ * @return stars avaliação de 1 a 5
+ * @return note crítica
+ */
 public class Review {
     public static String note;
     public static int stars;

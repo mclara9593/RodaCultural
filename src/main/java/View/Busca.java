@@ -1,5 +1,6 @@
 package View;
 
+import MenuUtils.Utilitie;
 import Model.*;
 import Model.Others.Pessoa;
 import javafx.geometry.Insets;
@@ -30,7 +31,7 @@ public class Busca extends VBox {
         titleBox.setPrefSize(300, 60);
 
         // Seletor de tipo de mídia
-        ViewUtilitie.MediaTypeChooserPane typeChooser = new ViewUtilitie.MediaTypeChooserPane();
+        Utilitie.MediaTypeChooserPane typeChooser = new Utilitie.MediaTypeChooserPane();
 
         // Conteúdo que muda
         conteudoFormulario = new VBox(10);

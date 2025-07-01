@@ -1,6 +1,11 @@
 package Model.Others;
 
-
+/**
+ * Classe que representa uma pessoa no sistema.
+ *
+ * @nome Seu Nome
+ * @obra titulo da midia que participou
+ */
 public class Pessoa {
     public  String nome;
     public static String função;
@@ -15,11 +20,9 @@ public class Pessoa {
     public String getNome() {
         return nome;
     }
-
     public static String getFunção() {
         return função;
     }
-
     public static String getObra() {
         return obra;
     }
