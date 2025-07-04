@@ -280,7 +280,7 @@ public class Avaliacao extends VBox {
 
         for (int i = 1; i <= numTemporadas; i++) {
             Label lblTemporada = new Label("Temporada " + i);
-            lblTemporada.setStyle("-fx-font-weight: bold; -fx-text-fill: #5a4a9a;");
+            lblTemporada.setStyle("-fx-font-weight: bold; -fx-text-fill: #000;");
 
             ComboBox<Integer> comboNota = new ComboBox<>();
             for (int j = 0; j <= 5; j++) {
